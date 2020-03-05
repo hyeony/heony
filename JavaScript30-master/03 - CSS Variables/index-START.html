@@ -21,18 +21,38 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
-
+    :root {
+      /*default variables*/
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
     /*
       misc styles, nothing to do with CSS variables
     */
+    img {
+      max-width: 600px;
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    h2 {
+      font-size: 1.2rem;
+    }
+
+    .hl {
+      font-size: 1.2rem;
+      color: var(--base);
+    }
 
     body {
       text-align: center;
-      background: #193549;
-      color: white;
+      background: #f3f3f3;
+      color: #ccc;
       font-family: 'helvetica neue', sans-serif;
       font-weight: 100;
-      font-size: 50px;
+      font-size: 24px;
     }
 
     .controls {
@@ -44,8 +64,7 @@
     }
   </style>
 
-  <script>
-  </script>
+  <script src="js/script.js"></script>
 
 </body>
 </html>
