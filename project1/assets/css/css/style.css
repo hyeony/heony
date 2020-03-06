@@ -128,7 +128,8 @@ nav {
   width: 120px;
   height: 40px;
   background-image: url("../../img/logo.png");
-  background-repeat: no-repeat; }
+  background-repeat: no-repeat;
+  z-index: 1; }
 
 .header-menu {
   max-width: 900px;
@@ -205,18 +206,13 @@ nav {
     background-color: #fff; }
     .header-menu-btn .line-1 {
       top: 30px;
-      left: 10px;
-      -webkit-animation: menu-bar01 .75s forwards;
-      animation: menu-bar01 .75s forwards; }
+      left: 10px; }
     .header-menu-btn .line-2 {
       top: 42px;
-      left: 10px;
-      opacity: 1; }
+      left: 10px; }
     .header-menu-btn .line-3 {
       top: 54px;
-      left: 10px;
-      -webkit-animation: menu-bar02 .75s forwards;
-      animation: menu-bar02 .75s forwards; }
+      left: 10px; }
 
 @media (max-width: 759px) {
   .header-menu-btn {
@@ -228,15 +224,20 @@ nav {
       .header-menu-btn .line-1 {
         top: 18px;
         right: 15px;
-        left: auto; }
+        left: auto;
+        -webkit-animation: menu-bar01 .75s forwards;
+        animation: menu-bar01 .75s forwards; }
       .header-menu-btn .line-2 {
         top: 24px;
         right: 15px;
-        left: auto; }
+        left: auto;
+        opacity: 1; }
       .header-menu-btn .line-3 {
         top: 30px;
         right: 15px;
-        left: auto; } }
+        left: auto;
+        -webkit-animation: menu-bar02 .75s forwards;
+        animation: menu-bar02 .75s forwards; } }
 
 @-webkit-keyframes menu-bar01 {
   0% {
