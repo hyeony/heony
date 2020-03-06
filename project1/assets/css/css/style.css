@@ -208,15 +208,94 @@ nav {
       .header-menu-btn .line-1 {
         top: 18px;
         right: 15px;
-        left: auto; }
+        left: auto;
+        -webkit-animation: menu-bar01 .75s forwards;
+        animation: menu-bar01 .75s forwards; }
       .header-menu-btn .line-2 {
         top: 24px;
         right: 15px;
-        left: auto; }
+        left: auto;
+        opacity: 1; }
       .header-menu-btn .line-3 {
         top: 30px;
         right: 15px;
-        left: auto; } }
+        left: auto;
+        -webkit-animation: menu-bar02 .75s forwards;
+        animation: menu-bar02 .75s forwards; } }
+
+@-webkit-keyframes menu-bar01 {
+  0% {
+    transform: translateY(0px) rotate(45deg); }
+  50% {
+    transform: translate(0px) roate(0); }
+  100% {
+    transform: translateY(0) rotate(0); } }
+
+@keyframes menu-bar01 {
+  0% {
+    transform: translateY(0px) rotate(45deg); }
+  50% {
+    transform: translate(0px) roate(0); }
+  100% {
+    transform: translateY(0) rotate(0); } }
+
+@-webkit-keyframes menu-bar02 {
+  0% {
+    -webkit-transform: translateY(-9px) rotate(-45deg); }
+  50% {
+    -webkit-transform: translateY(-9px) rotate(0); }
+  100% {
+    -webkit-transform: translateY(0) rotate(0); } }
+
+@keyframes menu-bar02 {
+  0% {
+    transform: translateY(-9px) rotate(-45deg); }
+  50% {
+    transform: translateY(-9px) rotate(0); }
+  100% {
+    transform: translateY(0) rotate(0); } }
+
+@media (max-width: 759px) {
+  .header-menu-btn.active .line-1 {
+    -webkit-animation: active-menu-bar01 0.75s forwards;
+    animation: active-menu-bar01 0.75s forwards; }
+  .header-menu-btn.active .line-2 {
+    opacity: 0; }
+  .header-menu-btn.active .line-3 {
+    -webkit-animation: active-menu-bar03 .75s forwards;
+    animation: active-menu-bar03 .75s forwards; } }
+
+@-webkit-keyframes active-menu-bar01 {
+  0% {
+    -webkit-transform: translateY(0) rotate(0); }
+  50% {
+    -webkit-transform: translateY(300%) rotate(0); }
+  100% {
+    -webkit-transform: translateY(300%) rotate(45deg); } }
+
+@keyframes active-menu-bar01 {
+  0% {
+    transform: translateY(0) rotate(0); }
+  50% {
+    transform: translateY(300%) rotate(0); }
+  100% {
+    transform: translateY(300%) rotate(45deg); } }
+
+@-webkit-keyframes active-menu-bar03 {
+  0% {
+    -webkit-transform: translateY(0) rotate(0); }
+  50% {
+    -webkit-transform: translateY(-300%) rotate(0); }
+  100% {
+    -webkit-transform: translateY(-300%) rotate(-45deg); } }
+
+@keyframes active-menu-bar03 {
+  0% {
+    transform: translateY(0) rotate(0); }
+  50% {
+    transform: translateY(-310%) rotate(0); }
+  100% {
+    transform: translateY(-310%) rotate(-45deg); } }
 
 .main_kb {
   height: 685px;
