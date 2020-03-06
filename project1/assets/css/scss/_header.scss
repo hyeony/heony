@@ -8,7 +8,7 @@ header {
   z-index: 10;
 }
 
-@media (min-width: 920px) {
+@media (min-width: 921px) {
   header {
     &:hover {
       height: 416px;
@@ -40,9 +40,21 @@ header {
     }
   }
 }
+@media (max-width: 920px) {
+  header {
+    &.active {
+      background-color: #000;
+    }
+  }
+}
 
 nav {
   height: 86px;
+}
+@media (max-width: 759px) {
+  nav {
+    height: 54px;
+  }
 }
 
 .header {
@@ -151,6 +163,16 @@ nav {
       top: 12px;
       width: 82px;
       background: url('../../img/logo.png') no-repeat left top / 100%;
+    }
+    &-menu {
+      &-item {
+        display: block;
+        width: 100%;
+      }
+    }
+    //2depth
+    &-submenu {
+      display: none;
     }
   }
 }
