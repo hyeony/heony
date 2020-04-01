@@ -1,3 +1,4 @@
+//header
 header {
   position: fixed;
   top: 0;
@@ -43,12 +44,35 @@ header {
 
 @media (max-width: 920px) {
   header {
+
+    //active header in mobile
     &.active {
+      height: 100%;
       background-color: #000;
+
+      nav {
+        height: 100%;
+      }
+
+      .header {
+        &-nav {
+          height: 100%;
+        }
+
+        &-menu {
+          display: block;
+        }
+      }
+
     }
   }
 }
 
+@media (max-width: 759px) {}
+
+//header
+
+//nav
 nav {
   height: 86px;
 }
@@ -59,6 +83,9 @@ nav {
   }
 }
 
+//nav
+
+//header- ~
 .header {
   &-nav {
     position: relative;
@@ -118,14 +145,16 @@ nav {
 
     li {
       margin-top: 18px;
-      font-size: 16px;
 
       &:first-child {
         margin-top: 0;
       }
 
-      a:hover {
-        color: $link-hover-color;
+      a {
+        font-size: 16px;
+        &:hover {
+          color: $link-hover-color;
+        }
       }
     }
   }
@@ -153,6 +182,48 @@ nav {
   .header {
     &-menu {
       display: none;
+      height: 100%;
+      margin-top: 86px;
+      background-color: #fff;
+      text-align: left;
+      overflow: auto;
+
+      &-item {
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        //if header-menu-item click
+        &.on {
+          .header-submenu {
+            display: block;
+          }
+        }
+      }
+
+      &-link {
+        display: block;
+        width: 100%;
+        padding: 0 10px;
+        line-height: 52px;
+        font-weight: 700;
+        color: #222;
+      }
+    }
+
+    //2depth
+    &-submenu {
+      display: none;
+      margin: 0;
+      padding: 12px 0 12px 24px;
+      background-color: #f8f8f8;
+      li{
+        margin: 0;
+        a{
+          display: block;
+          width: 100%;
+          padding: 12px 0;
+        }
+      }
     }
   }
 }
@@ -170,18 +241,19 @@ nav {
     }
 
     &-menu {
-      &-item {
-        display: block;
-        width: 100%;
-      }
+      margin-top: 54px;
     }
 
-    //2depth
     &-submenu {
-      display: none;
+      li{
+        a {
+          font-size: 14px;
+        }
+      }
     }
   }
 }
+//header- ~
 
 .header-menu-btn {
   position: absolute;

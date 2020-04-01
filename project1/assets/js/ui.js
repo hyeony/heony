@@ -17,9 +17,10 @@ $(document).ready(function () {
       return window.innerWidth <= 1024;
     },
   };
+  var prevSize = COMMON.isMobile();
 
-  function headerActive() {
-    menuBtn.on("click", function (e) {
+  menuBtn.on("click", function (e) {
+    if (COMMON.isMobile()) {
       if ($(this).hasClass('on')) {
         $(this).removeClass('on active');
         header.removeClass('active');
@@ -35,53 +36,21 @@ $(document).ready(function () {
           "height": "100%"
         });
       }
-    });
-  }
-
- if (COMMON.isMobile()) {
-  headerActive();
- }
-
-  $window.on('resize', function (e) {
-    if (COMMON.isMobile()) {
-      headerActive();
-    } else {
-      menuBtn.removeClass('on active');
-      header.removeClass('active');
-      body.css({
-        "overflow": "initial",
-        "height": "auto"
-      });
     }
   });
+
+  $window.on("resize", function (e) {
+    if (prevSize != COMMON.isMobile()) {
+      prevSize = COMMON.isMobile()
+      if (!COMMON.isMobile()) {
+        menuBtn.removeClass('on active');
+        header.removeClass('active');
+        body.css({
+          "overflow": "initial",
+          "height": "auto"
+        });
+      }
+    }
+
+  })
 });
-
-
-
-//resize체크를 안하면 문제가 생긴다.
-// var menuBtn = $('.header-menu-btn');
-
-// $(document).ready(function () {
-// 	menuBtn.on("click",function(){
-// 			var winW = $(window).width();
-// 		console.log(winW);
-// 		if(winW < 921){
-// 			$(this).toggleClass('on active');
-// 		}else {
-// 			return false;
-// 		}
-// 	});
-// });
-
-// $(window).resize(function(){
-// 	var winW = $(window).width();
-
-// 	menuBtn.on("click", function () {
-// 		console.log(winW);
-// 		if (winW < 921) {
-// 			$(this).toggleClass('on active');
-// 		} else {
-// 			return false;
-// 		}
-// 	});
-// });

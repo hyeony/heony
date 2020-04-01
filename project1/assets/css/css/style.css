@@ -105,7 +105,14 @@ header {
 
 @media (max-width: 920px) {
   header.active {
-    background-color: #000; } }
+    height: 100%;
+    background-color: #000; }
+    header.active nav {
+      height: 100%; }
+    header.active .header-nav {
+      height: 100%; }
+    header.active .header-menu {
+      display: block; } }
 
 nav {
   height: 86px; }
@@ -158,12 +165,13 @@ nav {
   text-align: left;
   z-index: 1; }
   .header-submenu li {
-    margin-top: 18px;
-    font-size: 16px; }
+    margin-top: 18px; }
     .header-submenu li:first-child {
       margin-top: 0; }
-    .header-submenu li a:hover {
-      color: #5c3edb; }
+    .header-submenu li a {
+      font-size: 16px; }
+      .header-submenu li a:hover {
+        color: #5c3edb; }
 
 @media (max-width: 1024px) {
   .header-menu-item {
@@ -175,7 +183,36 @@ nav {
   header {
     height: auto; }
   .header-menu {
-    display: none; } }
+    display: none;
+    height: 100%;
+    margin-top: 86px;
+    background-color: #fff;
+    text-align: left;
+    overflow: auto; }
+    .header-menu-item {
+      display: block;
+      width: 100%;
+      margin-left: 0; }
+      .header-menu-item.on .header-submenu {
+        display: block; }
+    .header-menu-link {
+      display: block;
+      width: 100%;
+      padding: 0 10px;
+      line-height: 52px;
+      font-weight: 700;
+      color: #222; }
+  .header-submenu {
+    display: none;
+    margin: 0;
+    padding: 12px 0 12px 24px;
+    background-color: #f8f8f8; }
+    .header-submenu li {
+      margin: 0; }
+      .header-submenu li a {
+        display: block;
+        width: 100%;
+        padding: 12px 0; } }
 
 @media (max-width: 759px) {
   .header-nav {
@@ -184,11 +221,10 @@ nav {
     top: 12px;
     width: 82px;
     background: url("../../img/logo.png") no-repeat left top/100%; }
-  .header-menu-item {
-    display: block;
-    width: 100%; }
-  .header-submenu {
-    display: none; } }
+  .header-menu {
+    margin-top: 54px; }
+  .header-submenu li a {
+    font-size: 14px; } }
 
 .header-menu-btn {
   position: absolute;
