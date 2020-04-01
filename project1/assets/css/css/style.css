@@ -90,6 +90,8 @@ header {
       border-bottom: 3px solid #000; }
       header:hover nav .header-menu-link {
         color: #000; }
+    header:hover .header-logo {
+      background-image: url("../../img/logo_black.png"); }
     header:hover .line {
       background-color: #000; }
   header:after {
@@ -105,21 +107,26 @@ header {
 
 @media (max-width: 920px) {
   header.active {
-    height: 100%;
-    background-color: #000; }
+    height: 100%; }
     header.active nav {
       height: 100%; }
+    header.active .header-box {
+      background-color: #000; }
     header.active .header-nav {
       height: 100%; }
     header.active .header-menu {
       display: block; } }
+
+@media (max-width: 759px) {
+  header {
+    height: 54px; } }
 
 nav {
   height: 86px; }
 
 @media (max-width: 759px) {
   nav {
-    height: 54px; } }
+    height: auto; } }
 
 .header-nav {
   position: relative;
@@ -180,12 +187,13 @@ nav {
     font-size: 16px; } }
 
 @media (max-width: 920px) {
-  header {
+  .header-box {
+    height: 86px;
+    transition: .5s; }
+  .header-nav {
     height: auto; }
   .header-menu {
-    display: none;
     height: 100%;
-    margin-top: 86px;
     background-color: #fff;
     text-align: left;
     overflow: auto; }
@@ -215,14 +223,12 @@ nav {
         padding: 12px 0; } }
 
 @media (max-width: 759px) {
-  .header-nav {
+  .header-box {
     height: 54px; }
   .header-logo {
     top: 12px;
     width: 82px;
     background: url("../../img/logo.png") no-repeat left top/100%; }
-  .header-menu {
-    margin-top: 54px; }
   .header-submenu li a {
     font-size: 14px; } }
 

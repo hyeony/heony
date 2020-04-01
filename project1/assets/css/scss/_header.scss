@@ -22,6 +22,11 @@ header {
           color: #000;
         }
       }
+      .header{
+        &-logo {
+          background-image: url('../../img/logo_black.png');
+        }
+      }
 
       .line {
         background-color: #000;
@@ -48,13 +53,16 @@ header {
     //active header in mobile
     &.active {
       height: 100%;
-      background-color: #000;
 
       nav {
         height: 100%;
       }
 
       .header {
+        &-box {
+          background-color: #000;
+        }
+
         &-nav {
           height: 100%;
         }
@@ -68,7 +76,11 @@ header {
   }
 }
 
-@media (max-width: 759px) {}
+@media (max-width: 759px) {
+  header {
+    height: 54px;
+  }
+}
 
 //header
 
@@ -79,7 +91,7 @@ nav {
 
 @media (max-width: 759px) {
   nav {
-    height: 54px;
+    height: auto;
   }
 }
 
@@ -175,19 +187,21 @@ nav {
 }
 
 @media (max-width: 920px) {
-  header {
-    height: auto;
-  }
-
   .header {
+    &-box {
+      height: 86px;
+      transition: .5s;
+    }
+
+    &-nav {
+      height: auto;
+    }
+
     &-menu {
-      display: none;
       height: 100%;
-      margin-top: 86px;
       background-color: #fff;
       text-align: left;
       overflow: auto;
-
       &-item {
         display: block;
         width: 100%;
@@ -199,7 +213,6 @@ nav {
           }
         }
       }
-
       &-link {
         display: block;
         width: 100%;
@@ -230,7 +243,7 @@ nav {
 
 @media (max-width: 759px) {
   .header {
-    &-nav {
+    &-box {
       height: 54px;
     }
 
@@ -238,10 +251,6 @@ nav {
       top: 12px;
       width: 82px;
       background: url('../../img/logo.png') no-repeat left top / 100%;
-    }
-
-    &-menu {
-      margin-top: 54px;
     }
 
     &-submenu {
