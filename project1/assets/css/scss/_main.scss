@@ -6,3 +6,17 @@
 	background-position: center;
 	background-repeat:  no-repeat;
 }
+
+.main-3d {
+	display: flex;
+	height: 90vh;
+	padding: 0 120px;
+
+	>div {
+		width: 50%;
+	}
+}
+
+canvas{
+	display: block;
+}
