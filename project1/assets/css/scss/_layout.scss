@@ -1,0 +1,47 @@
+@use "sass:math";
+@import "var";
+
+
+.container {
+  padding: 0 __to_vw($gutter, $content-box-max-width);
+  //padding: 0 math.div($gutter, $content-box-max-width) * 100vw;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  @media screen and (min-width: $content-box-max-width) {
+    padding-left: $gutter;
+    padding-right: $gutter;
+  }
+
+  @media screen and (max-width: $breakpoint-tablet) {
+    padding: 0 __to_vw($gutter-tablet, $breakpoint-tablet);
+
+  }
+
+  @media screen and (max-width: $breakpoint-mobile) {
+    padding: 0 $gutter-mobile;
+  }
+
+  &.container-boxed {
+    max-width: $content-box-max-width;
+  }
+}
+
+.__grid__ {
+  display: flex;
+  margin: __to_rem(-8px, $font-size-base);
+  gap: 0 !important;
+
+  .__col__ {
+      padding: __to_rem(8px, $font-size-base);
+      box-sizing: border-box;
+  }
+
+  @media screen and (max-width: $breakpoint-tablet) {
+      margin: __to_rem(-5px, $font-size-min);
+      .__col__ {
+          padding: __to_rem(5px, $font-size-min);
+      }
+  }
+}

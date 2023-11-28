@@ -1,0 +1,87 @@
+@use "sass:math";
+
+$color-gray-2: #222;
+
+$font-size-base: 18px;
+$font-size-min: 14px;
+$font-family: "Spoqa Han Sans Neo",-apple-system,BlinkMacSystemFont,system-ui,Roboto,"Helvetica Neue","Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+
+$breakpoint-desktop: 1280px;
+$breakpoint-tablet: 1024px;
+$breakpoint-mobile: 768px;
+$breakpoint-min: 640px;
+
+$content-box-max-width: 1920px;
+$content-box-mobile-width: 375px;
+$gutter: 80px;
+$gutter-tablet: 40px;
+$gutter-mobile: 20px;
+
+$grid-gutter: 16px;
+$grid-gutter-tablet: 10px;
+$grid-gutter-mobile: 10px;
+$header-z-index: 999;
+$footer-z-index: 99;
+
+
+// @function __to_rem($size, $base) {
+//   @return math.div($size, $base) * 1rem;
+// }
+@function __to_rem($size, $base) {
+  @return ($size / $base) * 1rem;
+}
+
+// @function __to_em($size, $base) {
+//   @return math.div($size, $base) * 1em;
+// }
+
+@function __to_em($size, $base) {
+  @return ($size / $base) * 1em;
+}
+
+@function __to_vw($size, $base) {
+  @return ($size / $base) * 100vw;
+}
+
+@function __to_vh($size, $base) {
+  @return math.div($size, $base) * 100vh;
+}
+
+@function __to_per($size, $base) {
+  @return math.div($size, $base) * 100%;
+}
+
+@mixin __txt_to_rem($size, $lh, $base) {
+  font-size: __to_rem($size, $base);
+  line-height: __to_em($lh, $size);
+}
+
+
+@mixin __txt_to_em($size, $lh, $base) {
+  font-size: __to_em($size, $base);
+  line-height: __to_em($lh, $size);
+}
+
+@mixin __wh_to_rem($width, $height, $base) {
+  min-width: __to_rem($width, $base);
+  width: __to_rem($width, $base);
+  height: __to_rem($height, $base);
+}
+
+@mixin __wh_to_em($width, $height, $base) {
+  min-width: __to_em($width, $base);
+  width: __to_em($width, $base);
+  height: __to_em($height, $base);
+}
+
+@mixin __wh_to_vw($width, $height, $base) {
+  min-width: __to_vw($width, $base);
+  width: __to_vw($width, $base);
+  height: __to_vw($height, $base);
+}
+
+@mixin __wh_to_vh($width, $height, $base) {
+  min-width: __to_vh($width, $base);
+  width: __to_vh($width, $base);
+  height: __to_vh($height, $base);
+}
