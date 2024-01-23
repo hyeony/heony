@@ -1,0 +1,15 @@
+.prdNav {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  color: #Fff;
+  border: 1px solid salmon;
+}
+
+.prdNav a {
+  padding: 4px;
+}
+
+.prd {
+  display: flex;
+}
