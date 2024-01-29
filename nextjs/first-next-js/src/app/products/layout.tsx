@@ -1,5 +1,11 @@
 import Link from 'next/link'
 import styles from './layout.module.css'
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "타이틀? 멋진 제풉사이드",
+  description: "제품을 판매하는곳",
+};
 
 export default function ProductLayout({
   children, // will be a page or nested layout

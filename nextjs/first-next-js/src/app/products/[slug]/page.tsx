@@ -1,14 +1,18 @@
-import React from 'react';
+// Import necessary dependencies and components
 import ProductNotFound from "../not-found";
 
 type Props = {
   params: {
     slug: string;
-  }
+  };
+};
+
+export function generateMetadata({ params }: Props) {
+  return { title: `제품의 이름: ${params.slug}` };
 }
 
-export default function PantsPage({params}: Props) {
-  if(params.slug === 'nothing') {
+function PantsPage({ params }: Props) {
+  if (params.slug === 'nothing') {
     return <ProductNotFound />;
   }
 
@@ -21,7 +25,9 @@ export default function PantsPage({params}: Props) {
 
 export function generateStaticParams() {
   const products = ['pants', 'skirt'];
-  return products.map(product => ({
+  return products.map((product) => ({
     slug: product,
   }));
 }
+
+export default PantsPage; // Make PantsPage the default export
