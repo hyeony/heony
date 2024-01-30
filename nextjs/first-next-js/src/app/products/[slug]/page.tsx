@@ -13,8 +13,8 @@ export function generateMetadata({ params }: Props) {
   return { title: `제품의 이름: ${params.slug}` };
 }
 
-function PantsPage({ params: {slug} }: Props) {
-  const product = getProduct(slug);
+export default async function ProductPage({ params: {slug} }: Props) {
+  const product = await getProduct(slug);
 
   if(!product) {
     notFound();
@@ -23,17 +23,16 @@ function PantsPage({ params: {slug} }: Props) {
   return (
     //서버 파일에 있는 데이트중 해당 제품의 정보를 찾아서 그걸 보여줌
     <div>
-      <div>{product} 설명 디테일 페이지</div>
+      <div>{product.name} 설명 디테일 페이지</div>
     </div>
   );
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   //모든 제품의 페이지들을 미리 만들어 둘 수 있게 해줄거임(ssg)
-  const products = getProducts();
+  const products = await getProducts();
   return products.map((product) => ({
-    slug: product,
+    slug: product.name,
   }));
 }
-
-export default PantsPage; // Make PantsPage the default export
+  
