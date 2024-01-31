@@ -2,6 +2,7 @@
 import { getProduct, getProducts } from "@/service/products";
 import ProductNotFound from "../not-found";
 import { notFound } from "next/navigation";
+
 type Props = {
   params: {
     slug: string;

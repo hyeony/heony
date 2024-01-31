@@ -12,6 +12,12 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <h1>Main US!</h1>
         <Counter />
+        <Image 
+          src="https://images.unsplash.com/photo-1441986300917-64674bd600d8"
+          alt="shop"
+          width={400}
+          height={200}
+        />
       </main>
     </>
   );
