@@ -1,3 +1,4 @@
+import { Image } from 'next/image';
 import path from 'path'
 import { promises as fs } from 'fs';
 
@@ -5,6 +6,7 @@ export type Product = {
   id: string;
   name: string;
   price: number;
+  Image: string;
 }
 
 export  async function getProducts(): Promise<Product[]> {

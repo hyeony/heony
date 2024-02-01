@@ -2,6 +2,7 @@
 import { getProduct, getProducts } from "@/service/products";
 import ProductNotFound from "../not-found";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 type Props = {
   params: {
@@ -24,6 +25,7 @@ export default async function ProductPage({ params: {slug} }: Props) {
     //서버 파일에 있는 데이트중 해당 제품의 정보를 찾아서 그걸 보여줌
     <div>
       <div>{product.name} 설명 디테일 페이지</div>
+      <Image src={`/images/${product.image}`} width='300' height='300' alt={product.name} />
     </div>
   );
 }
