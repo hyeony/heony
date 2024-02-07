@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import Link from 'next/link'
-import { Inter } from "next/font/google";
+import { Nanum_Gothic } from "next/font/google";
+
+const gothic = Nanum_Gothic({ 
+  weight: '700',
+  subsets: ['latin'],
+ });
+
 import "./globals.css";
 import styles from './layout.module.css'
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "타이틀? 연습페이지인걸",
@@ -17,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={gothic.className}>
+      <body className={gothic.className}>
         <header className={styles.header}>
           <h1><Link href={'/'}>HOYOHOYO</Link></h1>
           <nav className={styles.nav}>
