@@ -16,7 +16,7 @@ export default function Home() {
               src="/vercel.svg"
               alt="Vercel Logo"
               className="dark:invert"
-              width={100}
+              width={100} 
               height={24}
               priority
             />
@@ -34,6 +34,9 @@ export default function Home() {
 
       <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
         blog Test
+      </div>
+      <div>
+        ㅂㄹㄹ로그테ㅡ트으 
       </div>
     </main>
   );

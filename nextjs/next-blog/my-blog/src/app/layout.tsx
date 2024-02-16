@@ -11,7 +11,7 @@ import "./globals.scss";
 import styles from './layout.module.scss'
 
 export const metadata: Metadata = {
-  title: "타이틀? 연습페이지인걸",
+  title: "넥스트로블로그만들기",
   description: "연습페이지라구",
 };
 
@@ -24,10 +24,10 @@ export default function RootLayout({
     <html lang="en" className={gothic.className}>
       <body className={gothic.className}>
         <header className={styles.header}>
-          <h1><Link href={'/'}>B</Link></h1>
+          <h1><Link href={'/'}>Heony</Link></h1>
           <nav className={styles.nav}>
             <Link href='/about'>about</Link>
-            <Link href='/board'>board</Link>
+            <Link href='/post'>blogPost</Link>
             <Link href='/contact'>Contact</Link>
           </nav>
         </header>
