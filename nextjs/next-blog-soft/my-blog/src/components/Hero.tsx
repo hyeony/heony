@@ -5,8 +5,8 @@ import Link from 'next/link'
 
 export default function Hero() {
   return (
-    <section>
-      <Image src={profileImage} alt='pic' width={150} height={150} priority />
+    <section className='flex items-center flex-col'>
+      <Image src={profileImage} alt='pic' width={80} height={80} priority />
       <h2 className='text-3xl font-bold mt-2'>{"Hallo, ich bin Jihyun"}</h2>
       <h3 className='text-xl font-semibold'>Ich bin ein UI/UX-Entwickler</h3>
       <p>Heute ist es besser, als gestern</p>
