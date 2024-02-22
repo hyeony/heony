@@ -60,4 +60,18 @@
   font-size: 18px;
   min-height: 60px;
   color: #fff;
-} 
+}
+
+.postCtgUl {
+  padding: 20px 0;
+}
+
+.postCtgLi {
+  margin: 12px 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.postCtgLi:hover {
+  color: #fff;
+}

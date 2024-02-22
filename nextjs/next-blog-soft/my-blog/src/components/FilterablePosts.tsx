@@ -17,7 +17,7 @@ export default function FilterablePosts( {posts, categories}: Props ) {
   ? posts
   : posts.filter((post) => post.category === selected );
 
-  return (<section>
+  return (<section className="flex py-10">
     <PostsGrid posts={filtered}  />
     {/* <Categories categories={categories}  selected={selected}  onClick={ (selected) => setSelected(selected)} /> */}
     <Categories
