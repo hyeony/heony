@@ -87,8 +87,6 @@ renderer.setClearColor(debugObject.clearColor)
 let particles= null
 gltfLoader.load('./models.glb', (gltf) => {
   // console.log(gltf)
-
-
   /**
    * Particles
    */
@@ -120,40 +118,39 @@ gltfLoader.load('./models.glb', (gltf) => {
         newArray[i3 + 1] = originalArray[i3 + 1]
         newArray[i3 + 2] = originalArray[i3 + 2]
       }
-      else 
+      else
       {
         const randomIndex =  Math.floor(position.count * Math.random()) * 3
         console.log(randomIndex)
-        newArray[i3 + 0] = originalArray[randomIndex * 0]
-        newArray[i3 + 1] = originalArray[randomIndex * 1]
-        newArray[i3 + 2] = originalArray[randomIndex * 2]
+        newArray[i3 + 0] = originalArray[randomIndex + 0]
+        newArray[i3 + 1] = originalArray[randomIndex + 1]
+        newArray[i3 + 2] = originalArray[randomIndex + 2]
       }
     }
 
-
     particles.positions.push(new THREE.Float32BufferAttribute(newArray, 3))
-   
+
   }
-
   // console.log(particles.positions)
-
-  // Geometry
+  // Geometry 
   particles.geometry = new THREE.BufferGeometry()
   particles.geometry.setAttribute('position', particles.positions[1])
+  particles.geometry.setAttribute('aPositionTarget', particles.positions[3])
   //index의 제거방법에대해 기억...
 
 
   // Material
   particles.material = new THREE.ShaderMaterial({
-      vertexShader: particlesVertexShader,
-      fragmentShader: particlesFragmentShader,
-      uniforms:
-      {
-          uSize: new THREE.Uniform(0.4),
-          uResolution: new THREE.Uniform(new THREE.Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio))
-      },
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
+    vertexShader: particlesVertexShader,
+    fragmentShader: particlesFragmentShader,
+    uniforms:
+    {
+        uSize: new THREE.Uniform(0.2),
+        uResolution: new THREE.Uniform(new THREE.Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio)),
+        uProgress: new THREE.Uniform(0)
+    },
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
   })
 
   // Points
