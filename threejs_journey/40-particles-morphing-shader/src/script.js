@@ -157,6 +157,9 @@ gltfLoader.load('./models.glb', (gltf) => {
   particles.points = new THREE.Points(particles.geometry, particles.material)
   scene.add(particles.points)
 
+  // Tweaks
+  gui.add(particles.material.uniforms.uProgress,'value').min(0).max(1).step(0.001).name('uProgress')
+
 })
 
 /**
