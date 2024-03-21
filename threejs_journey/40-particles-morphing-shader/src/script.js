@@ -133,10 +133,17 @@ gltfLoader.load('./models.glb', (gltf) => {
 
   }
   // console.log(particles.positions)
+  const sizesArray = new Float32Array(particles.maxCount)
+
+  for(let i = 0; i < particles.maxCount; i++)
+  sizesArray[i] = Math.random()
+console.log(sizesArray)
+
   // Geometry
   particles.geometry = new THREE.BufferGeometry()
   particles.geometry.setAttribute('position', particles.positions[particles.index])
   particles.geometry.setAttribute('aPositionTarget', particles.positions[2])
+  particles.geometry.setAttribute('aSize', new THREE.BufferAttribute(sizesArray, 1))
   //index의 제거방법에대해 기억...
 
 
@@ -146,7 +153,7 @@ gltfLoader.load('./models.glb', (gltf) => {
     fragmentShader: particlesFragmentShader,
     uniforms:
     {
-        uSize: new THREE.Uniform(0.2),
+        uSize: new THREE.Uniform(0.4),
         uResolution: new THREE.Uniform(new THREE.Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio)),
         uProgress: new THREE.Uniform(0)
     },
