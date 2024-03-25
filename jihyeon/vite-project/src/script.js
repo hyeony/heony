@@ -7,35 +7,30 @@ gsap.registerPlugin(ScrollTrigger);
 window.addEventListener('load', function() {
   setupScene();
 
+
   gsap.to(".text-1", {
-    opacity: 0,
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    ease: 'power1.out',
+  });
+
+  const timeline = gsap.timeline({
     scrollTrigger: {
       trigger: ".main-letter-fixed",
-      start: "top top",
-      end: "center top",
-      scrub: true
+      start: "20px top",
+      end: "bottom top",
+      scrub: true,
+      pin: true,
+      // markers: true,
     }
   });
   
-  gsap.to(".text-2", {
+  timeline.to(".text-1", {
+    opacity: 0
+  },"-=0.4")
+  .to(".text-2", {
     opacity: 1,
-    y: -10,
-    scrollTrigger: {
-      trigger: ".main-letter-fixed",
-      start: "top top",
-      end: "center top",
-      scrub: true
-    }
-  });
-
-  gsap.to(".main-letter-fixed", {
-    y: 0,
-    // pin: true, // pinning 설정
-    scrollTrigger: {
-      trigger: ".main-letter-fixed",
-      start: "top top",
-      end: "bottom top",
-      scrub: true,
-    }
-  });
+    y: -10
+  },"-=0.2");
 });
