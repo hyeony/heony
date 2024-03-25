@@ -412,20 +412,29 @@ section:nth-child(odd) {
   position: relative;
   background-color: #fff;
   z-index: 2;
+  height: 300vh;
 }
+
+/*
+main text
+*/
 
 .main-letter-fixed {
   position: fixed;
   top: 0;
   left: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
 
   >div {
-    display: flex;
-    height: 100vh;
-    align-items: center;
     font-family: 'Cabin', sans-serif;
     color: #ffeded;
     text-transform: uppercase;
     font-size: 7vmin;
+  }
+
+  .text-2 {
+    opacity: 0;
   }
 }

@@ -5,16 +5,19 @@ import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 import GUI from 'lil-gui'
 import gsap from 'gsap'
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 
 export function setupScene() {
   /**
    * Debug
    */
-  const gui = new GUI()
+  // const gui = new GUI()
 
-  const parameters = {
-    materialColor: '#ffeded'
-  }
+  // const parameters = {
+  //   materialColor: '#ffeded'
+  // }
 
   // gui
   //   .addColor(parameters, 'materialColor')
@@ -97,8 +100,8 @@ export function setupScene() {
    */
   // Base camera
   const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 100)
-  camera.position.set(0, 0, 3)
-  camera.lookAt(0, 0, 0)
+  camera.position.z = 3
+  // camera.lookAt(0, 0, 0)
   scene.add(camera)
 
 
@@ -125,7 +128,7 @@ export function setupScene() {
     });
 
     obj.scale.set(13, 13, 13);
-    obj.position.y = -3;
+    obj.position.y = -1;
     obj.rotation.x = -1.2
 
     animateModel(obj);
@@ -165,24 +168,43 @@ export function setupScene() {
   /**
    * Animate
    */
-  function animateModel(model) {
-    const clock = new THREE.Clock();
-
-    //camera, material
-    const tick = () => {
-      const elapsedTime = clock.getElapsedTime();
-
-      model.position.y = Math.sin(elapsedTime) * 0.1 - 1.2;
-      model.rotation.x = -scrollY / sizes.height * 2 - 0.8
-
-      camera.position.y = -scrollY / sizes.height * 3.5
+function animateModel(model) {
+  const clock = new THREE.Clock();
+  const sec2 = document.getElementById('#section2');
+  const endPosition = canvas.offsetHeight * 2;
 
 
-      renderer.render(scene, camera);
-
-      window.requestAnimationFrame(tick);
+  const timeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: canvas,
+      start: "top top",
+      end: '+=2000px',
+      scrub: true,
+      markers: true
     }
+  });
+  
+  timeline.to(camera.position, {
+    y: -0.5,
+  })
+  .to(model.rotation, {
+    x: -1.6,
+  },'-=0.5')
+  .to(camera.position, {
+    y: -2.5,
+  });
 
-    tick();
+  const tick = () => {
+    const elapsedTime = clock.getElapsedTime();
+
+    model.position.y = Math.sin(elapsedTime) * 0.1 - 1.4;
+
+    renderer.render(scene, camera);
+
+    window.requestAnimationFrame(tick);
   }
+
+  tick();
+}
+
 }
