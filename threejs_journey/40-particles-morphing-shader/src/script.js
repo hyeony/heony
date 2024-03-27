@@ -122,7 +122,7 @@ gltfLoader.load('./models.glb', (gltf) => {
       else
       {
         const randomIndex =  Math.floor(position.count * Math.random()) * 3
-        console.log(randomIndex)
+        // console.log(randomIndex)
         newArray[i3 + 0] = originalArray[randomIndex + 0]
         newArray[i3 + 1] = originalArray[randomIndex + 1]
         newArray[i3 + 2] = originalArray[randomIndex + 2]
@@ -137,7 +137,7 @@ gltfLoader.load('./models.glb', (gltf) => {
 
   for(let i = 0; i < particles.maxCount; i++)
   sizesArray[i] = Math.random()
-console.log(sizesArray)
+// console.log(sizesArray)
 
   // Geometry
   particles.geometry = new THREE.BufferGeometry()
@@ -148,6 +148,8 @@ console.log(sizesArray)
 
 
   // Material
+  particles.colorA = '#ff7300'
+  particles.colorB = '#0091ff'
   particles.material = new THREE.ShaderMaterial({
     vertexShader: particlesVertexShader,
     fragmentShader: particlesFragmentShader,
@@ -155,7 +157,9 @@ console.log(sizesArray)
     {
         uSize: new THREE.Uniform(0.4),
         uResolution: new THREE.Uniform(new THREE.Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio)),
-        uProgress: new THREE.Uniform(0)
+        uProgress: new THREE.Uniform(0),
+        uColorA: new THREE.Uniform(new THREE.Color(particles.colorA)),
+        uColorB: new THREE.Uniform(new THREE.Color(particles.colorB))
     },
     blending: THREE.AdditiveBlending,
     depthWrite: false
@@ -187,9 +191,13 @@ console.log(sizesArray)
   particles.morph2 = () => {particles.morph(2) }
   particles.morph3 = () => {particles.morph(3) }
 
+
   // Tweaks
   gui.add (particles.material.uniforms.uProgress, 'value')
   .min(0).max(1).step(0.001).name('uProgress')
+
+  gui.addColor(particles, 'colorA').onChange(() => { particles.material.uniforms.uColorA.value.set(particles.colorA) })
+  gui.addColor(particles, 'colorB').onChange(() => { particles.material.uniforms.uColorB.value.set(particles.colorB) })
 
   gui.add(particles, 'morph0')
   gui.add(particles, 'morph1')
