@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import {  DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
 import GUI from 'lil-gui'
 import gsap from 'gsap'
+import ScrollTrigger from "gsap/ScrollTrigger";
 import particlesVertexShader from './shaders/particles/vertex.glsl'
 import particlesFragmentShader from './shaders/particles/fragment.glsl'
 
@@ -65,8 +66,8 @@ camera.position.set(0, 0, 8 * 2)
 scene.add(camera)
 
 // Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+// const controls = new OrbitControls(camera, canvas)
+// controls.enableDamping = true
 
 /**
  * Renderer
@@ -200,6 +201,56 @@ gltfLoader.load('./models.glb', (gltf) => {
     particles.morph(3)
   }
 
+  // 모프 함수 정의
+const morph = (index) => {
+  // 모델 모프 처리
+  particles.morph(index)
+}
+
+// ScrollTrigger을 사용하여 스크롤 위치 감지
+gsap.registerPlugin(ScrollTrigger)
+
+// ScrollTrigger 플러그인 등록
+gsap.registerPlugin(ScrollTrigger);
+
+const sectionRefs = document.querySelectorAll('.section');
+const sections = Array.from(sectionRefs);
+
+// 각 섹션에 대해 ScrollTrigger를 생성하여 모델 모핑
+sections.forEach((section, i) => {
+  ScrollTrigger.create({
+    trigger: section,
+    start: "top bottom-=1",
+    end: "bottom top+=1",
+    onEnter: () => {
+      // 섹션에 진입할 때 모델 모핑
+      const index = sections.indexOf(section);
+      if (index !== -1) {
+        particles.morph(index);
+      }
+    },
+    onEnterBack: () => {
+      // 섹션에 뒤로 돌아갈 때 모델 모핑
+      const index = sections.indexOf(section);
+      if (index !== -1) {
+        particles.morph(index);
+      }
+    }
+  });
+});
+/**
+ * Animate
+ */
+const tick = () => {
+  // Render normal scene
+  renderer.render(scene, camera);
+
+  // Call tick again on the next frame
+  window.requestAnimationFrame(tick);
+}
+
+tick();
+
 
   // Tweaks
   gui.add(particles.material.uniforms.uProgress, 'value')
@@ -227,7 +278,7 @@ gltfLoader.load('./models.glb', (gltf) => {
  */
 const tick = () => {
   // Update controls
-  controls.update()
+  // controls.update()
 
   // Render normal scene
   renderer.render(scene, camera)
