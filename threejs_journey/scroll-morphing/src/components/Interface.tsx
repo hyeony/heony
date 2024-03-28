@@ -1,10 +1,9 @@
-import {  useLayoutEffect, useRef } from "react"
+import {  useLayoutEffect, useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger);
 import ScrollToPlugin from "gsap/ScrollToPlugin";
 gsap.registerPlugin(ScrollToPlugin)
-
 
 
 interface Scrolling {
@@ -19,7 +18,8 @@ interface Scrolling {
   }
 
 export const Interface = (props:properties) => {
-    
+  
+
     const { changeModel} = props
     const sectionRef1 = useRef <HTMLDivElement>(null)
     const sectionRef2 = useRef <HTMLDivElement >(null)
@@ -52,28 +52,41 @@ export const Interface = (props:properties) => {
     };
 
     function goToSection(section :any) {
-        if (scrolling.enabled) { 
+        if (scrolling.enabled) {
         scrolling.disable();
         gsap.to(window, {
             scrollTo: {y: section, autoKill: false},
             onComplete: scrolling.enable,
             duration: 1
         });
-    } 
+    }
     }
     useLayoutEffect(() => {
         sections.forEach((section, i) => {
-        ScrollTrigger.create({
-            trigger: section.current,
-            start: "top bottom-=1",
-            end: "bottom top+=1",
-            onEnter: () => {goToSection(section.current),changeModel(i),console.log(i);
+          ScrollTrigger.create({
+              trigger: section.current,
+              start: "top bottom-=1",
+              end: "bottom top+=1",
+              onEnter: () => {
+                const index = sections.indexOf(section);
+                // console.log("changeModel function:", changeModel);
+                goToSection(section.current);
+                if (index !== -1) {
+                    changeModel(index);
+                    console.log(index);
+                }
             },
-            onEnterBack: () => {goToSection(section.current),changeModel(i),console.log(i);
+            onEnterBack: () => {
+                const index = sections.indexOf(section);
+                goToSection(section.current);
+                if (index !== -1) {
+                    changeModel(index);
+                    console.log(index);
+                }
             }
-        });
+          });
         })
-    },[])  
+    },[])
 
 
     return(

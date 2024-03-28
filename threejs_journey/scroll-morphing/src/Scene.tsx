@@ -44,13 +44,6 @@ type logoResult = GLTF & {
   materials: {};
 };
 
-// type logo2Result = GLTF & {
-//   nodes: {
-//     logo: THREE.Mesh;
-//   };
-//   materials: {};
-// };
-
 type properties = {
   current: number;
 };
@@ -80,7 +73,6 @@ function Scene({current}:properties) {
     dna.nodes.BezierCircle,
     amongus.nodes.crewmate_body,
     suzanne.nodes.Suzanne,
-
   ];
 
   const startTime = useRef(0);
@@ -101,10 +93,7 @@ function Scene({current}:properties) {
   const changeModel = () => {
     startTime.current = 0;
     FBORef.current?.setModelB(current);
-    
-    
   };
-
 
 
   useEffect(() => {
@@ -129,30 +118,8 @@ function Scene({current}:properties) {
   });
 
 
-
-
   return (
     <>
-    {/* <motion.group
-      position={[5,0,-1]}
-      scale={[1,1,1]}
-      rotation-y= {Math.PI/4}
-      animate={{
-        x: -5,
-        z:0,
-        scale: [0.8,0.8,0.8],
-        rotateY: -Math.PI/4 *3
-      }}
-      transition={{
-        duration: 2,
-        type: "easeIn",
-        mass: 5,
-        stiffness: 100,
-        damping: 50,
-        restDelta: 0.0001,
-        delay:1
-      }}
-    > */}
       <R3FPointsFX
           modelsArray={meshes}
           pointSize={3.0}
@@ -160,13 +127,17 @@ function Scene({current}:properties) {
           modelA={previousIndex.current}
           modelB={current}
           ref={FBORef}
+          uniforms={{
+            uColor1: new THREE.Color("#D0BFFF"),
+            uColor2: new THREE.Color("#FF4B91"),
+            uColor3: new THREE.Color("#FFCD4B"),
+          }}
+          rotation={[0, -0.8, 0]}
+          scale={[2, 2, 2]}
 
         />
-        
-        
     {/* </motion.group> */}
-      
-      
+
     </>
   );
 }

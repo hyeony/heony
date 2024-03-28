@@ -12,8 +12,9 @@ interface prop {
 
 
 function Experience(props :prop) {
+  
   const {current, changeModel} = props
-
+  console.log("changeModel function:", changeModel);
   const [menuOpened, setMenuOpened] = useState(false)
 
   return (
