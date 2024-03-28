@@ -54,8 +54,8 @@ scene.add(light, new THREE.AmbientLight(0xffffff, 0.5));
  */
 //define the amount of points
 let amount = 50000;
-let g = new THREE.BufferGeometry();
-g.setAttribute("position", new THREE.Float32BufferAttribute(new Array(amount * 3).fill(0), 3));
+let model = new THREE.BufferGeometry();
+model.setAttribute("position", new THREE.Float32BufferAttribute(new Array(amount * 3).fill(0), 3));
 
 //loader
 const dracoLoader = new DRACOLoader();
@@ -69,7 +69,7 @@ let gltf1 = await loader.loadAsync( 'forest_house.glb');
 gltf1.scene.updateMatrixWorld(true);
 let model1 = new THREE.Mesh(mergeModel(gltf1.scene));
 //positionStart 속성 추가
-g.setAttribute("positionStart", pointification(model1, amount));
+model.setAttribute("positionStart", pointification(model1, amount));
 
 // Draco 로더를 해제합니다.
 loader.setDRACOLoader( null );
@@ -79,18 +79,19 @@ let gltf2 = await loader.loadAsync( 'DamagedHelmet.gltf' );
 gltf2.scene.updateMatrixWorld(true);
 let model2 = new THREE.Mesh(mergeModel(gltf2.scene, 5));
 // positionEnd 속성을 추가
-g.setAttribute("positionEnd", pointification(model2, amount));
+model.setAttribute("positionEnd", pointification(model2, amount));
 
 // rotDir 속성을 추가
-g.setAttribute("rotDir", new THREE.Float32BufferAttribute(new Array(amount).fill().map(p => Math.random() < 0.5 ? -1: 1), 1));
+model.setAttribute("rotDir", new THREE.Float32BufferAttribute(new Array(amount).fill().map(p => Math.random() < 0.5 ? -1: 1), 1));
 
 let pu = {
   morphRatio: {value: 0}
 }
+
 // 포인트를 생성하고 씬에 추가
 scene.add(
   new THREE.Points(
-    g,
+    model,
     new THREE.PointsMaterial({
       color: 0x44ffff,
       size: 0.05,
@@ -140,6 +141,7 @@ ScrollTrigger.create({
     }
   });
 
+
 let clock = new THREE.Clock();
 
 renderer.setAnimationLoop(() => {
@@ -149,10 +151,11 @@ renderer.setAnimationLoop(() => {
 
 function updateModel() {
     let morphRatio = pu.morphRatio.value;
-    let positionsStart = g.attributes.positionStart.array;
-    let positionsEnd = g.attributes.positionEnd.array;
-    let positions = g.attributes.position.array;
+    let positionsStart = model.attributes.positionStart.array;
+    let positionsEnd = model.attributes.positionEnd.array;
+    let positions = model.attributes.position.array;
 
+    //각 포인트 위치 업데이트
     for (let i = 0; i < amount; i++) {
       let x0 = positionsStart[i * 3];
       let y0 = positionsStart[i * 3 + 1];
@@ -162,20 +165,26 @@ function updateModel() {
       let y1 = positionsEnd[i * 3 + 1];
       let z1 = positionsEnd[i * 3 + 2];
 
+      // morphRatio에 따라 선형 보간하여 포인트의 위치를 업데이트
       positions[i * 3] = THREE.MathUtils.lerp(x0, x1, morphRatio);
       positions[i * 3 + 1] = THREE.MathUtils.lerp(y0, y1, morphRatio);
       positions[i * 3 + 2] = THREE.MathUtils.lerp(z0, z1, morphRatio);
     }
 
-    g.attributes.position.needsUpdate = true;
+    model.attributes.position.needsUpdate = true;
   }
 
+//모델병합
 function mergeModel(model, scale = 1){
+  //BufferGeometry 배열 선언
   let gs = [];
+
   model.traverse(child => {
     if(child.isMesh){
+      //geometry 복제, 인덱스 제거
       let g = child.geometry.clone().toNonIndexed();
       for(let a in g.attributes){
+          //position을 제외한 모든 속성 제거
         if (a != "position") g.deleteAttribute(a);
       }
       g.applyMatrix4(child.matrixWorld);
@@ -185,13 +194,18 @@ function mergeModel(model, scale = 1){
   return mergeGeometries(gs).center().scale(scale, scale, scale);
 }
 
+//모델 포인트화
 function pointification(mesh, amount){
   let mss = new MeshSurfaceSampler(mesh).build();
+
   let pointsData = [];
   let v = new THREE.Vector3();
+
   for(let i = 0; i < amount; i++){
     mss.sample(v);
     v.toArray(pointsData, i * 3);
   }
+
+  //포인트속성 변환
   return new THREE.Float32BufferAttribute(pointsData, 3);
 }
