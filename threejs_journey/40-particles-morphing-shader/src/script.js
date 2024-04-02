@@ -164,10 +164,7 @@ gltfLoader.load('./among_us.glb', (gltf) => {
 gltfLoader.load('./rocket.glb', (gltf) => {
   particlesRocket = {};
   particlesRocket.index = 0;
-  scene.add(gltf.scene);
-
-  // Rocket 모델의 위치를 조정합니다.
-  gltf.scene.position.set(-4, 0, 0); // x, y, z 축으로 이동
+ 
 
   const positions = gltf.scene.children.map(child => child.geometry.attributes.position);
 
