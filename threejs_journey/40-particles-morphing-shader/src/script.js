@@ -96,6 +96,7 @@ function moveParticles(modelData, x, y, z) {
 }
 
 // Function to handle GLTF loading
+// Function to handle GLTF loading
 function handleGLTFLoad(gltf, particles, x, y, z) {
   addModelData(gltf, particles, x, y, z);
 
@@ -106,7 +107,9 @@ function handleGLTFLoad(gltf, particles, x, y, z) {
   const positions = model.children.map(child => child.geometry.attributes.position);
   model.position.x = x;
 
+  // Find the maximum count among all positions
   particles.maxCount = Math.max(...positions.map(position => position.count));
+
 
   particles.positions = positions.map(position => {
     const originalArray = position.array;
@@ -154,6 +157,7 @@ function handleGLTFLoad(gltf, particles, x, y, z) {
     depthWrite: false
   });
 
+  // Points
   const points = new THREE.Points(particles.geometry, particles.material);
   points.frustumCulled = false;
   scene.add(points);
@@ -183,13 +187,26 @@ function handleGLTFLoad(gltf, particles, x, y, z) {
 
 
   // Tweaks
-  particles.morphA = () => { particles.morph(modelDataArray[0], modelDataArray[1]); };
+  particles.morphA = () => { 
+    particles.morph(modelDataArray[0], modelDataArray[1]);
+    console.log(modelDataArray);
+  };
   particles.morphB = () => { particles.morph(modelDataArray[1], modelDataArray[0]); };
 
   gui.add(particles, 'morphA');
   gui.add(particles, 'morphB');
-  
-  
+
+    if (particles.geometry !== undefined) {
+      particles.geometry.setDrawRange(0, particles.maxCount);
+    } else {
+        // Create a new geometry if it doesn't exist
+        particles.geometry = new THREE.BufferGeometry();
+        // Set other attributes as needed
+        particles.geometry.setAttribute('position', particles.positions[0]);
+        particles.geometry.setAttribute('aPositionTarget', particles.positions[0]);
+        particles.geometry.setAttribute('aSize', new THREE.BufferAttribute(sizesArray, 1));
+  }
+
 }
 
 
@@ -209,16 +226,6 @@ function addModelData(gltf, particles, x, y, z) {
 let initialParticlesAmongUs = null;
 let initialParticlesRocket = null;
 
-// Among Us 모델 로드 후 초기 파티클 데이터 설정
-gltfLoader.load('./among_us.glb', (gltf) => {
-  const particlesAmongUs = {
-    index: 0,
-    colorA: '#ff7300',
-    colorB: '#0091ff'
-  };
-  handleGLTFLoad(gltf, particlesAmongUs, 0, -2, 0);
-  initialParticlesAmongUs = { ...particlesAmongUs }; // 초기 파티클 데이터 저장
-});
 
 // Rocket 모델 로드 후 초기 파티클 데이터 설정
 gltfLoader.load('./rocket.glb', (gltf) => {
@@ -227,17 +234,38 @@ gltfLoader.load('./rocket.glb', (gltf) => {
     colorA: '#ff7300',
     colorB: '#0091ff'
   };
-  const model = gltf.scene;
-  scene.add(model);
-  handleGLTFLoad(gltf, particlesRocket, 4, 0, 0);
+
+  handleGLTFLoad(gltf, particlesRocket, 0, 0, 0);
   initialParticlesRocket = { ...particlesRocket }; // 초기 파티클 데이터 저장
 });
+
+// Among Us 모델 로드 후 초기 파티클 데이터 설정
+gltfLoader.load('./among_us.glb', (gltf) => {
+  const particlesAmongUs = {
+    index: 0,
+    colorA: '#ff7300',
+    colorB: '#0091ff'
+  };
+  
+  // 모델 데이터를 배열에 추가하지 않고 즉시 처리합니다.
+  handleGLTFLoad(gltf, particlesAmongUs, 0, -2, 0);
+
+  // 파티클 제거
+  scene.remove(particlesAmongUs.points);
+
+  // 초기 파티클 데이터 저장
+  initialParticlesAmongUs = { ...particlesAmongUs };
+});
+
+
+
 
 
 // Animate
 const animate = () => {
   renderer.render(scene, camera);
   window.requestAnimationFrame(animate);
+  
 };
 
 animate();
