@@ -14,7 +14,7 @@ const Grid3D = ({ size, divisions }) => {
         // XY plane
         vertices.push(-halfSize, i, j, halfSize, i, j);
         vertices.push(i, -halfSize, j, i, halfSize, j);
-        
+
         // XZ plane
         vertices.push(i, j, -halfSize, i, j, halfSize);
         vertices.push(-halfSize, j, i, halfSize, j, i);
@@ -29,9 +29,9 @@ const Grid3D = ({ size, divisions }) => {
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
 
     const material = new THREE.LineBasicMaterial({
-      color: 0xaaaaaa, // 그리드의 색상
+      color: 0xffffff, // 그리드의 색상
       transparent: true, // 투명도 설정을 위해 true로 설정
-      opacity: 0.5, // 투명도
+      opacity: 0.2, // 투명도
     });
 
     const gridLines = new THREE.LineSegments(geometry, material);
@@ -60,9 +60,9 @@ const Grid3D = ({ size, divisions }) => {
 
     // Create material for grey lines
     const greyMaterial = new THREE.LineBasicMaterial({
-      color: 0x888888, // 그레이 색상
+      color: 0xffffff, // 그레이 색상
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.2,
     });
     const greyLines = new THREE.LineSegments(junctionGeometry, greyMaterial);
 
@@ -70,7 +70,7 @@ const Grid3D = ({ size, divisions }) => {
     const whiteMaterial = new THREE.LineBasicMaterial({
       color: 0xffffff, // 화이트 색상
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.9,
     });
     const whiteLines = new THREE.LineSegments(junctionGeometry, whiteMaterial);
 
