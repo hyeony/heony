@@ -1,8 +1,11 @@
 // Grid3D.js
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
+import { useSpring } from '@react-spring/three';
 
 const Grid3D = ({ size, divisions }) => {
+  const whiteMaterialRef = useRef();
+
   const grid = useMemo(() => {
     const step = size / divisions;
     const halfSize = size / 2;
@@ -39,7 +42,6 @@ const Grid3D = ({ size, divisions }) => {
     // Add thicker lines at the junctions
     const junctions = [];
 
-    // Add thicker lines at the junctions
     for (let i = -halfSize; i < halfSize; i += step) {
       for (let j = -halfSize; j < halfSize; j += step) {
         for (let k = -halfSize; k < halfSize; k += step) {
@@ -60,7 +62,7 @@ const Grid3D = ({ size, divisions }) => {
 
     // Create material for grey lines
     const greyMaterial = new THREE.LineBasicMaterial({
-      color: 0xffffff, // 그레이 색상
+      color: 0x808080, // 그레이 색상
       transparent: true,
       opacity: 0.2,
     });
@@ -72,6 +74,7 @@ const Grid3D = ({ size, divisions }) => {
       transparent: true,
       opacity: 0.9,
     });
+    whiteMaterialRef.current = whiteMaterial;
     const whiteLines = new THREE.LineSegments(junctionGeometry, whiteMaterial);
 
     gridLines.add(greyLines);
@@ -79,6 +82,19 @@ const Grid3D = ({ size, divisions }) => {
 
     return gridLines;
   }, [size, divisions]);
+
+  const springProps = useSpring({
+    loop: { reverse: true },
+    from: { opacity: 0.1, color: 'white' },
+    to: { opacity: 1, color: 'white' },
+    config: { duration: 1500 },
+    onChange: ({ value }) => {
+      if (whiteMaterialRef.current) {
+        whiteMaterialRef.current.opacity = value.opacity;
+        whiteMaterialRef.current.color = new THREE.Color(value.color);
+      }
+    },
+  });
 
   return <primitive object={grid} />;
 };
