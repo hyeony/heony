@@ -3,20 +3,24 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import Grid3D from "./components/Grid3d";
 
+function CameraController() {
+  const { camera } = useThree();
+  useFrame(() => {
+    camera.lookAt(-3, 11, 9);
+  });
+  return null;
+}
+
 function App() {
   return (
-    <>
-    <Canvas camera={{ position: [10, 10, 10], fov: 95, near: 0.1, far: 1000 }}
-     onCreated={({ camera }) => camera.lookAt(0, 0, 0)} // 카메라가 원점을 바라보
-    >
-        <color attach="background" args={["#ececec"]} />
-        <Experience />
-
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
-        <Grid3D size={30} divisions={5} />
-      </Canvas>
-    </>
+    <Canvas camera={{ position: [-5, 20, 15], fov: 40, near: 0.5, far: 1000 }}>
+      <color attach="background" args={["#ececec"]} />
+      <CameraController />
+      <Experience />
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} />
+      <Grid3D size={30} divisions={5} />
+    </Canvas>
   );
 }
 
