@@ -6,7 +6,7 @@ import { MeshStandardMaterial } from "three";
 export const Experience = () => {
   return (
     <>
-      <OrbitControls />
+      <OrbitControls enableZoom={false} />
       <Background />
       <group>
         <Text3D
