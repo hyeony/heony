@@ -25,7 +25,7 @@ const Experience = () => {
       },
       0
     );
-    
+
   });
 
   return (
@@ -38,7 +38,7 @@ const Experience = () => {
           curveSegments={24}
           brevelSegments={10}
           bevelEnabled
-          bevelSize={0.08}           
+          bevelSize={0.08}
           scale={[1, 1, 1]}
           height={0.3}
           lineHeight={0.9}
