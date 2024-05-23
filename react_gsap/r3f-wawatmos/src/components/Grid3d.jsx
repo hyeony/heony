@@ -1,6 +1,7 @@
 // Grid3D.js
 import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
+import { useFrame } from '@react-three/fiber';
 import { useSpring } from '@react-spring/three';
 
 const Grid3D = ({ size, divisions }) => {
@@ -32,9 +33,9 @@ const Grid3D = ({ size, divisions }) => {
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
 
     const material = new THREE.LineBasicMaterial({
-      color: 0xffffff, // 그리드의 색상
-      transparent: true, // 투명도 설정을 위해 true로 설정
-      opacity: 0.2, // 투명도
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.2,
     });
 
     const gridLines = new THREE.LineSegments(geometry, material);
@@ -60,17 +61,15 @@ const Grid3D = ({ size, divisions }) => {
     const junctionGeometry = new THREE.BufferGeometry();
     junctionGeometry.setAttribute('position', new THREE.Float32BufferAttribute(junctions, 3));
 
-    // Create material for grey lines
     const greyMaterial = new THREE.LineBasicMaterial({
-      color: 0x808080, // 그레이 색상
+      color: 0x808080,
       transparent: true,
       opacity: 0.2,
     });
     const greyLines = new THREE.LineSegments(junctionGeometry, greyMaterial);
 
-    // Create material for white lines
     const whiteMaterial = new THREE.LineBasicMaterial({
-      color: 0xffffff, // 화이트 색상
+      color: 0xffffff,
       transparent: true,
       opacity: 0.9,
     });
@@ -94,6 +93,10 @@ const Grid3D = ({ size, divisions }) => {
         whiteMaterialRef.current.color = new THREE.Color(value.color);
       }
     },
+  });
+
+  useFrame(() => {
+    // Optional: Any logic that needs to be updated every frame for the grid
   });
 
   return <primitive object={grid} />;

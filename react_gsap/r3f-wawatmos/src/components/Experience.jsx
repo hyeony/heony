@@ -1,9 +1,10 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import gsap from 'gsap';
-import { Text3D, useScroll } from '@react-three/drei';
+import { useScroll } from '@react-three/drei';
 import { Background } from './Background';
 import TextComponent from './Text3d';
+import Grid3D from './Grid3D';
 
 const Experience = () => {
   const { camera } = useThree();
@@ -22,31 +23,23 @@ const Experience = () => {
     // VERTICAL ANIMATION
     tl.current.to(
       camera.position,
-      { duration: 0.5, x: 0, y: - 10, z: 0 },
+      { duration: 0.3, x: 0, y: -30, z: 0 },
       0
     ).to(
       camera.rotation,
-      { duration: 0.5, x: -1, y: -0.1, z: 0 },
-      0
-    ).to(
-      camera.position,
-      { duration: 0.5, x: 0, y: -20, z: 0 },
-      0
-    ).to(
-      camera.rotation,
-      { duration: 0.5, x: 15, y: -0.1, z: 0 },
-      0
+      { duration: 0.4, x: -1.7, y: -0.1, z: 0.5 },
+      -0.03
     )
 
-    tl.current.to(
-      camera.position,
-      {
-        duration: 1,
-        x: -1,
-        z: 2,
-      },
-      0
-    );
+    // tl.current.to(
+    //   camera.position,
+    //   {
+    //     duration: 1,
+    //     x: -1,
+    //     z: 2,
+    //   },
+    //   0
+    // );
 
   }, []);
 
@@ -54,6 +47,7 @@ const Experience = () => {
     <>
       <Background />
       <TextComponent />
+      <Grid3D size={100} divisions={5} /> {/* Add the Grid3D component here */}
     </>
   );
 };
