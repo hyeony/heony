@@ -1,6 +1,6 @@
 import React from 'react';
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Experience } from "./components/Experience";
+import Experience from './components/Experience'
 import { ScrollControls } from "@react-three/drei";
 import Grid3D from "./components/Grid3d";
 
@@ -19,3 +19,4 @@ function App() {
 }
 
 export default App;
+

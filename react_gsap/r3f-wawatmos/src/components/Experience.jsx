@@ -1,21 +1,44 @@
-import { OrbitControls } from "@react-three/drei";
-import { Background } from "./Background";
-import { Text3D } from "@react-three/drei";
-import { MeshStandardMaterial } from "three";
+import React, { useLayoutEffect, useRef } from 'react'
+import { useFrame } from '@react-three/fiber';
+import gsap from 'gsap';
+import { Text3D, useScroll } from '@react-three/drei';
+import { Background } from './Background';
 
-export const Experience = () => {
+const Experience = () => {
+  const ref = useRef();
+  const tl = useRef();
+
+  const scroll = useScroll();
+
+  useFrame(() => {
+    tl.current.seek(scroll.offset * tl.current.duration());
+  });
+
+  useLayoutEffect(() => {
+
+    tl.current = gsap.timeline();
+    tl.current.to(
+      ref.current.position,
+      {
+        duration: 1,
+        y: 5
+      },
+      0
+    );
+    
+  });
+
   return (
     <>
-      <OrbitControls enableZoom={false} />
       <Background />
-      <group>
+      <group ref={ref}>
         <Text3D
           font="./fonts/helvetiker_regular.typeface.json"
           position={[-6, 0, 0]}
           curveSegments={24}
           brevelSegments={10}
           bevelEnabled
-          bevelSize={0.08}
+          bevelSize={0.08}           
           scale={[1, 1, 1]}
           height={0.3}
           lineHeight={0.9}
@@ -67,3 +90,5 @@ export const Experience = () => {
     </>
   );
 };
+
+export default Experience;
