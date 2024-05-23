@@ -4,7 +4,8 @@ import gsap from 'gsap';
 import { useScroll } from '@react-three/drei';
 import { Background } from './Background';
 import TextComponent from './Text3d';
-import Grid3D from './Grid3D';
+import Grid3D from './Grid3d';
+import ScrollMesh from './ScrollMesh';
 
 const Experience = () => {
   const { camera } = useThree();
@@ -23,12 +24,12 @@ const Experience = () => {
     // VERTICAL ANIMATION
     tl.current.to(
       camera.position,
-      { duration: 0.3, x: 0, y: -30, z: 0 },
+      { duration: 0.2, x: 0, y: -30, z: 0 },
       0
     ).to(
       camera.rotation,
-      { duration: 0.4, x: -1.7, y: -0.1, z: 0.5 },
-      -0.03
+      { duration: 0.3, x: -1.7, y: -0.1, z: 0.5 },
+      -0.02
     )
 
     // tl.current.to(
@@ -46,8 +47,9 @@ const Experience = () => {
   return (
     <>
       <Background />
-      <TextComponent />
       <Grid3D size={100} divisions={5} /> {/* Add the Grid3D component here */}
+      <TextComponent />
+      <ScrollMesh />
     </>
   );
 };
