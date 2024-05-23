@@ -6,11 +6,11 @@ import Grid3D from "./components/Grid3d";
 
 function App() {
   return (
-    <Canvas camera={{ position: [-1.5, 25 , 5], fov: 50, near: 0.1, far: 1000 }}>
+    <Canvas camera={{ position: [-1.5, 20 , 5], fov: 50, near: 0.1, far: 1000 }}>
       <color attach="background" args={["#ececec"]} />
       <ambientLight intensity={0.5} />
       <pointLight position={[11, 10, 10]} />
-      <ScrollControls pages={3} damping={0.3}>
+      <ScrollControls pages={5} damping={0.3}>
         <Experience />
         <Grid3D size={30} divisions={5} />
       </ScrollControls>

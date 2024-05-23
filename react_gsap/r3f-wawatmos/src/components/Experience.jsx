@@ -22,12 +22,32 @@ const Experience = () => {
     // VERTICAL ANIMATION
     tl.current.to(
       camera.position,
+      { duration: 0.5, x: 0, y: - 10, z: 0 },
+      0
+    ).to(
+      camera.rotation,
+      { duration: 0.5, x: -1, y: -0.1, z: 0 },
+      0
+    ).to(
+      camera.position,
+      { duration: 0.5, x: 0, y: -20, z: 0 },
+      0
+    ).to(
+      camera.rotation,
+      { duration: 0.5, x: 15, y: -0.1, z: 0 },
+      0
+    )
+
+    tl.current.to(
+      camera.position,
       {
         duration: 1,
-        y: 10
+        x: -1,
+        z: 2,
       },
       0
     );
+
   }, []);
 
   return (
