@@ -2,7 +2,7 @@
 import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { useSpring } from '@react-spring/three';
+import { useSpring, a } from '@react-spring/three';
 
 const Grid3D = ({ size, divisions }) => {
   const whiteMaterialRef = useRef();
@@ -82,15 +82,14 @@ const Grid3D = ({ size, divisions }) => {
     return gridLines;
   }, [size, divisions]);
 
-  const springProps = useSpring({
+  const { opacity } = useSpring({
     loop: { reverse: true },
-    from: { opacity: 0.1, color: 'white' },
-    to: { opacity: 1, color: 'white' },
+    from: { opacity: 0.1 },
+    to: { opacity: 1 },
     config: { duration: 1500 },
     onChange: ({ value }) => {
       if (whiteMaterialRef.current) {
         whiteMaterialRef.current.opacity = value.opacity;
-        whiteMaterialRef.current.color = new THREE.Color(value.color);
       }
     },
   });
@@ -99,7 +98,9 @@ const Grid3D = ({ size, divisions }) => {
     // Optional: Any logic that needs to be updated every frame for the grid
   });
 
-  return <primitive object={grid} />;
+  return (
+    <primitive object={grid} />
+  );
 };
 
 export default Grid3D;
