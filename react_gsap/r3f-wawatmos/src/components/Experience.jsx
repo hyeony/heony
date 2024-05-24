@@ -24,30 +24,19 @@ const Experience = () => {
     // VERTICAL ANIMATION
     tl.current.to(
       camera.position,
-      { duration: 0.2, x: 0, y: -30, z: 0 },
+      { duration: 0.2, x: 0, y: -80, z: 0 },  // Adjust y position to extend the movement
       0
     ).to(
       camera.rotation,
       { duration: 0.3, x: -1.7, y: -0.1, z: 0.5 },
       -0.02
-    )
-
-    // tl.current.to(
-    //   camera.position,
-    //   {
-    //     duration: 1,
-    //     x: -1,
-    //     z: 2,
-    //   },
-    //   0
-    // );
-
+    );
   }, []);
 
   return (
     <>
       <Background />
-      <Grid3D size={100} divisions={5} /> {/* Add the Grid3D component here */}
+      <Grid3D size={500} divisions={10} />  {/* Increase size and adjust divisions */}
       <TextComponent />
       <ScrollMesh />
     </>

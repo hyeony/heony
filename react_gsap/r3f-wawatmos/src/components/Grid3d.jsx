@@ -1,8 +1,7 @@
-// Grid3D.js
 import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { useSpring, a } from '@react-spring/three';
+import { useSpring } from '@react-spring/three';
 
 const Grid3D = ({ size, divisions }) => {
   const whiteMaterialRef = useRef();
