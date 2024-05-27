@@ -18,39 +18,40 @@ const Experience = () => {
     }
   });
 
-  useLayoutEffect(() => {
-    tl.current = gsap.timeline();
+useLayoutEffect(() => {
+  tl.current = gsap.timeline();
 
-    // 카메라 애니메이션 설정: y축을 따라 내려가는 모션 추가
-    tl.current.to(
-      camera.position,
-      { duration: 1, x: 0, y: -20, z: 5, ease: "power1.inOut" }, // y축을 따라 내려가기
-      0
-    ).to(
-      camera.rotation,
-      { duration: 1, x: -Math.PI / 4, y: 0, z: 0, ease: "power1.inOut" },
-      0
-    );
+  // 탑뷰에서 내려가는 애니메이션
+  tl.current.to(
+    camera.position,
+    { duration: 2, x: 0, y: -20, z: 1, ease: "power1.inOut" },
+    0
+  ).to(
+    camera.rotation,
+    { duration: 2, x: -Math.PI / 4, y: 0, z: 0, ease: "power1.inOut" },
+    0
+  );
 
-    // y축을 따라 내려간 후, 곡선적인 움직임 추가
-    tl.current.to(
-      camera.position,
-      { duration: 2, x: 10, y: -20, z: 10, ease: "power1.inOut" }, // 곡선적으로 이동
-      1
-    ).to(
-      camera.rotation,
-      { duration: 2, x: 0, y: Math.PI / 4, z: 0, ease: "power1.inOut" },
-      1
-    ).to(
-      camera.position,
-      { duration: 1, x: 0, y: -20, z: 20, ease: "power1.inOut" }, // 최종 위치로 이동
-      3
-    ).to(
-      camera.rotation,
-      { duration: 1, x: 0, y: 0, z: 0, ease: "power1.inOut" }, // 최종적으로 정면 회전으로 변경
-      3
-    );
-  }, []);
+  // y축을 따라 내려간 후, 그리드를 따라 약간 회전하는 느낌의 애니메이션 추가
+  tl.current.to(
+    camera.position,
+    { duration: 4, x: -10, y: -100, z: 0, ease: "power1.inOut" },
+    2
+  ).to(
+    camera.rotation,
+    { duration: 4, x: Math.PI / 70, y: -Math.PI * 0.15, z: 0, ease: "power1.inOut" },
+    2
+  ).to(
+    camera.position,
+    { duration: 2, x: 0, y: -120, z: 20, ease: "power1.inOut" }, 
+    6
+  ).to(
+    camera.rotation,
+    { duration: 4, x: 0, y: -Math.PI * 0.5, z: 0, ease: "power1.inOut" },
+    6
+  );
+}, []);
+
 
   return (
     <>
