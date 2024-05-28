@@ -1,14 +1,19 @@
-import React, { useLayoutEffect, useRef, forwardRef } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
-import { useScroll } from '@react-three/drei';
+import React, { useLayoutEffect, useEffect, useRef, forwardRef } from 'react';
+import { useFrame, useThree, extend } from '@react-three/fiber';
+import { useScroll, shaderMaterial } from '@react-three/drei';
 import * as THREE from 'three';
+import { EdgesGeometry } from 'three';
+import { UnrealBloomPass } from 'three-stdlib';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import { Background } from './Background';
 import TextComponent from './Text3d';
 import Grid3D from './Grid3d';
-import ScrollMesh from './ScrollMesh';
+
+
+extend({ UnrealBloomPass });
 
 const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera }, ref) => {
-  useLayoutEffect(() => {
+  useEffect(() => {
     const direction = new THREE.Vector3(0, 0, -1).applyEuler(finalRotation);
     const boxPosition = finalPosition.clone().add(direction.multiplyScalar(distanceFromCamera));
     if (ref.current) {
@@ -16,11 +21,15 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera }, re
     }
   }, [finalPosition, finalRotation, distanceFromCamera, ref]);
 
+  const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(10, 10, 10));
+
   return (
-    <mesh ref={ref}>
-      <boxGeometry args={[10, 10, 10]} />
-      <meshStandardMaterial color="green" transparent opacity={0} />
-    </mesh>
+    <>
+      <lineSegments ref={ref}>
+        <primitive object={edges} attach="geometry" />
+        <lineBasicMaterial color="lime" linewidth={2} />
+      </lineSegments>
+    </>
   );
 });
 
@@ -65,7 +74,7 @@ const Experience = () => {
       const x = centerX + radiusX * Math.cos(t);
       const z = centerZ + radiusZ * Math.sin(t);
       camera.position.set(x, -160, z);
-      
+
       if (boxRef.current) {
         camera.lookAt(boxRef.current.position);
       }
@@ -89,12 +98,12 @@ const Experience = () => {
       <Background />
       <Grid3D size={500} divisions={10} />
       <TextComponent />
-      <Box
-        ref={boxRef}
+
+
+  <Box         ref={boxRef}
         finalPosition={finalCameraPosition}
         finalRotation={finalCameraRotation}
-        distanceFromCamera={distanceFromCamera}
-      />
+        distanceFromCamera={distanceFromCamera} />
     </>
   );
 };
