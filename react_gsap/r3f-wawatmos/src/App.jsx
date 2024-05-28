@@ -11,7 +11,7 @@ function App() {
       <color attach="background" args={["#ececec"]} />
       <ambientLight intensity={0.2} />
       <pointLight position={[11, 10, 10]} />
-      <ScrollControls pages={7} damping={0.5}>
+      <ScrollControls pages={10} damping={0.4}>
         <Experience />
         <Grid3D size={30} divisions={5} />
       </ScrollControls>
