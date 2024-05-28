@@ -1,6 +1,5 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import gsap from 'gsap';
 import { useScroll } from '@react-three/drei';
 import * as THREE from 'three';
 import { Background } from './Background';
@@ -10,30 +9,12 @@ import ScrollMesh from './ScrollMesh';
 
 const Experience = () => {
   const { camera, scene } = useThree();
-  const tl = useRef();
   const scroll = useScroll();
   const boxRef = useRef();
-
-  useFrame(() => {
-    if (tl.current) {
-      tl.current.seek(scroll.offset * tl.current.duration());
-    }
-  });
+  const initialAnimationRef = useRef({ position: new THREE.Vector3(), rotation: new THREE.Euler() });
 
   useLayoutEffect(() => {
-    tl.current = gsap.timeline();
     const finalPosition = { x: -30, y: -160, z: -60 };
-
-    // 초기 카메라 이동 애니메이션 (부드럽게 아래로 내려가기)
-    tl.current
-      .to(camera.position, { duration: 2, x: 0, y: -40, z: 1, ease: 'power1.inOut' }, 0)
-      .to(camera.rotation, { duration: 2, x: -Math.PI / 2, y: 0, z: 0, ease: 'power1.inOut' }, 0)
-      .to(camera.position, { duration: 3, x: -10, y: -80, z: -20, ease: 'power1.inOut' }, 2)
-      .to(camera.rotation, { duration: 3, x: -Math.PI / 2, y: -Math.PI / 16, z: 0, ease: 'power1.inOut' }, 2)
-      .to(camera.position, { duration: 3, x: -20, y: -120, z: -40, ease: 'power1.inOut' }, 5)
-      .to(camera.rotation, { duration: 3, x: -Math.PI / 4, y: -Math.PI / 8, z: 0, ease: 'power1.inOut' }, 5)
-      .to(camera.position, { duration: 3, x: -30, y: -160, z: -60, ease: 'power1.inOut' }, 8)
-      .to(camera.rotation, { duration: 3, x: -Math.PI / 6, y: -Math.PI / 4, z: 0, ease: 'power1.inOut' }, 8);
 
     // 박스 추가 및 불투명도 애니메이션 설정
     const boxGeometry = new THREE.BoxGeometry(10, 10, 10);
@@ -41,35 +22,61 @@ const Experience = () => {
     const box = new THREE.Mesh(boxGeometry, boxMaterial);
 
     // 박스의 위치를 카메라 최종 위치를 기준으로 설정
-    const finalCameraPosition = new THREE.Vector3(finalPosition.x, finalPosition.y, finalPosition.z);
     const direction = new THREE.Vector3(0, 0, -1).applyEuler(new THREE.Euler(-Math.PI / 6, -Math.PI / 4, 0));
     const distanceFromCamera = 50;
-    const boxPosition = finalCameraPosition.clone().add(direction.multiplyScalar(distanceFromCamera));
+    const boxPosition = new THREE.Vector3(finalPosition.x, finalPosition.y, finalPosition.z).add(direction.multiplyScalar(distanceFromCamera));
 
     box.position.copy(boxPosition);
     scene.add(box);
     boxRef.current = box;
 
-    // 박스가 일찍 보이도록 불투명도 애니메이션을 앞당김
-    tl.current.to(boxMaterial, { opacity: 1, duration: 3, ease: 'power1.inOut' }, 5);
+    // 초기 카메라 위치와 회전값 저장
+    initialAnimationRef.current.position.copy(camera.position);
+    initialAnimationRef.current.rotation.copy(camera.rotation);
+  }, [camera, scene]);
 
-    // 타원 경로를 따라 카메라 이동 애니메이션 설정
-    const radiusX = 40; // 타원의 x축 반지름
-    const radiusZ = 40; // 타원의 z축 반지름
-    const centerX = finalPosition.x;
-    const centerZ = finalPosition.z;
-    const duration = 10; // 타원 경로를 따라 이동하는 데 걸리는 시간
-    const segments = 100; // 타원 경로를 따라 나눌 세그먼트 수
+  useFrame(() => {
+    const scrollOffset = scroll.offset;
 
-    for (let i = 0; i <= segments; i++) {
-      const t = (i / segments) * Math.PI * 2; // 매개변수 t (0 ~ 2π)
+    if (scrollOffset <= 0.3) {
+      // 초기 애니메이션 (부드럽게 아래로 내려가기)
+      const t = scrollOffset / 0.3;
+      camera.position.lerpVectors(
+        initialAnimationRef.current.position,
+        new THREE.Vector3(-30, -160, -60),
+        t
+      );
+      camera.rotation.set(
+        THREE.MathUtils.lerp(initialAnimationRef.current.rotation.x, -Math.PI / 6, t),
+        THREE.MathUtils.lerp(initialAnimationRef.current.rotation.y, -Math.PI / 4, t),
+        THREE.MathUtils.lerp(initialAnimationRef.current.rotation.z, 0, t)
+      );
+    } else {
+      // 타원 경로를 따라 카메라 이동
+      const t = (scrollOffset - 0.3) / 0.7 * Math.PI * 2; // 매개변수 t (0 ~ 2π)
+      const radiusX = 40; // 타원의 x축 반지름
+      const radiusZ = 40; // 타원의 z축 반지름
+      const centerX = -30; // 타원의 중심 x좌표
+      const centerZ = -60; // 타원의 중심 z좌표
       const x = centerX + radiusX * Math.cos(t);
       const z = centerZ + radiusZ * Math.sin(t);
-      tl.current.to(camera.position, { duration: duration / segments, x, z, ease: 'power1.inOut', onUpdate: () => {
-        camera.lookAt(box.position);
-      }}, 11 + (i * duration / segments));
+      camera.position.set(x, -160, z);
+      camera.lookAt(boxRef.current.position);
     }
-  }, [camera, scene]);
+
+    // 박스가 카메라 y 위치에 따라 서서히 보이도록 설정
+    const startShowingY = -120;
+    const fullVisibleY = -160;
+    if (camera.position.y < startShowingY) {
+      boxRef.current.material.opacity = THREE.MathUtils.lerp(
+        0,
+        1,
+        (startShowingY - camera.position.y) / (startShowingY - fullVisibleY)
+      );
+    } else {
+      boxRef.current.material.opacity = 0;
+    }
+  });
 
   return (
     <>
