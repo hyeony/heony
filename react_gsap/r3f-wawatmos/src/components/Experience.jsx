@@ -23,53 +23,27 @@ const Experience = () => {
   useLayoutEffect(() => {
     tl.current = gsap.timeline();
 
-    // 탑뷰에서 내려가는 애니메이션
-    tl.current.to(
-      camera.position,
-      { duration: 2, x: 0, y: -20, z: 1, ease: "power1.inOut" },
-      0
-    ).to(
-      camera.rotation,
-      { duration: 2, x: -Math.PI / 4, y: 0, z: 0, ease: "power1.inOut" },
-      0
-    );
+    // 초기 카메라 이동 애니메이션 (아래를 보면서 내려가기)
+    tl.current.to(camera.position, { duration: 4, x: 0, y: -40, z: 1, ease: 'power1.inOut' }, 0)
+              .to(camera.rotation, { duration: 4, x: -Math.PI / 2, y: 0, z: 0, ease: 'power1.inOut' }, 0);
 
-    // y축을 따라 내려간 후, 그리드를 따라 약간 회전하는 느낌의 애니메이션 추가
-    tl.current.to(
-      camera.position,
-      { duration: 4, x: -10, y: -100, z: 0, ease: "power1.inOut" },
-      2
-    ).to(
-      camera.rotation,
-      { duration: 4, x: Math.PI / 70, y: -Math.PI * 0.15, z: 0, ease: "power1.inOut" },
-      2
-    ).to(
-      camera.position,
-      { duration: 2, x: 0, y: -120, z: 20, ease: "power1.inOut" }, 
-      6
-    ).to(
-      camera.rotation,
-      { duration: 4, x: 0, y: -Math.PI * 0.5, z: 0, ease: "power1.inOut" },
-      6
-    );
+    // 더 깊이 내려가면서 왼쪽으로 틀어지는 애니메이션
+    tl.current.to(camera.position, { duration: 8, x: -10, y: -100, z: -30, ease: 'power1.inOut' }, 4)
+              .to(camera.rotation, { duration: 8, x: -Math.PI / 3, y: -Math.PI / 8, z: 0, ease: 'power1.inOut' }, 4);
 
-    // 박스를 미리 추가하고, 불투명도 애니메이션 설정
-    const boxGeometry = new THREE.BoxGeometry(10, 10, 10);
+    // 박스를 향해 내려가는 애니메이션
+    tl.current.to(camera.position, { duration: 8, x: 0, y: -160, z: -40, ease: 'power1.inOut' }, 12)
+              .to(camera.rotation, { duration: 8, x: -Math.PI / 6, y: 0, z: 0, ease: 'power1.inOut' }, 12);
+
+    // 박스 추가 및 불투명도 애니메이션 설정
+    const boxGeometry = new THREE.BoxGeometry(5, 5, 5);
     const boxMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, transparent: true, opacity: 0 });
     const box = new THREE.Mesh(boxGeometry, boxMaterial);
-
-    // 카메라의 최종 위치와 방향을 기반으로 박스 위치 설정
-    const finalCameraPosition = new THREE.Vector3(0, -120, 20);
-    const direction = new THREE.Vector3(0, 0, -1).applyEuler(new THREE.Euler(0, -Math.PI * 0.5, 0));
-    const distanceFromCamera = 30;
-    const meshPosition = finalCameraPosition.clone().add(direction.multiplyScalar(distanceFromCamera));
-
-    box.position.copy(meshPosition);
+    box.position.set(0, -160, -40);
     scene.add(box);
     boxRef.current = box;
 
-    // 박스의 불투명도 애니메이션
-    tl.current.to(boxMaterial, { opacity: 1, duration: 2, ease: "power1.inOut" }, 8);
+    tl.current.to(boxMaterial, { opacity: 1, duration: 4, ease: 'power1.inOut' }, 20);
 
   }, [camera, scene]);
 
