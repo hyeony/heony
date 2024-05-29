@@ -1,12 +1,13 @@
-import React, { useLayoutEffect, useEffect, useRef, forwardRef } from 'react';
-import { extend } from '@react-three/fiber';
-import { useScroll } from '@react-three/drei';
+import React, { useEffect, useRef, forwardRef } from 'react';
+import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { EdgesGeometry } from 'three';
-import { UnrealBloomPass } from 'three-stdlib';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 
-const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera }, ref) => {
+const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRaycast }, ref) => {
+  const raycasterRef = useRef(new THREE.Raycaster());
+  const lineRef = useRef();
+
   useEffect(() => {
     const direction = new THREE.Vector3(0, 0, -1).applyEuler(finalRotation);
     const boxPosition = finalPosition.clone().add(direction.multiplyScalar(distanceFromCamera));
@@ -15,14 +16,40 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera }, re
     }
   }, [finalPosition, finalRotation, distanceFromCamera, ref]);
 
+  useEffect(() => {
+    if (lineRef.current) {
+      const material = new THREE.LineBasicMaterial({ color: 'white' });
+      const points = [new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -10)];
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      lineRef.current.geometry = geometry;
+      lineRef.current.material = material;
+    }
+  }, [lineRef]);
+
+  useFrame(() => {
+    if (ref.current) {
+      const raycaster = raycasterRef.current;
+      raycaster.set(ref.current.position, new THREE.Vector3(0, 0, -1).applyEuler(finalRotation));
+      const intersects = raycaster.intersectObjects([/* array of objects to check for intersections */]);
+
+      if (onRaycast) {
+        onRaycast(intersects);
+      }
+    }
+  });
+
   const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(10, 10, 10));
 
   return (
     <>
       <lineSegments ref={ref}>
         <primitive object={edges} attach="geometry" />
-        <lineBasicMaterial color="lime" linewidth={2} />
+        <lineBasicMaterial color="white" linewidth={5} />
       </lineSegments>
+      <line ref={lineRef} />
+      <EffectComposer>
+        <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
+      </EffectComposer>
     </>
   );
 });
