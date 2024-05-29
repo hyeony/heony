@@ -8,30 +8,10 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import { Background } from './Background';
 import TextComponent from './Text3d';
 import Grid3D from './Grid3d';
+import Box from './GlowBox'
 
 
 extend({ UnrealBloomPass });
-
-const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera }, ref) => {
-  useEffect(() => {
-    const direction = new THREE.Vector3(0, 0, -1).applyEuler(finalRotation);
-    const boxPosition = finalPosition.clone().add(direction.multiplyScalar(distanceFromCamera));
-    if (ref.current) {
-      ref.current.position.copy(boxPosition);
-    }
-  }, [finalPosition, finalRotation, distanceFromCamera, ref]);
-
-  const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(10, 10, 10));
-
-  return (
-    <>
-      <lineSegments ref={ref}>
-        <primitive object={edges} attach="geometry" />
-        <lineBasicMaterial color="lime" linewidth={2} />
-      </lineSegments>
-    </>
-  );
-});
 
 const Experience = () => {
   const { camera } = useThree();
@@ -100,7 +80,8 @@ const Experience = () => {
       <TextComponent />
 
 
-  <Box         ref={boxRef}
+        <Box
+        ref={boxRef}
         finalPosition={finalCameraPosition}
         finalRotation={finalCameraRotation}
         distanceFromCamera={distanceFromCamera} />
