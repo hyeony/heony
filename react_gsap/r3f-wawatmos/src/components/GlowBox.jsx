@@ -38,7 +38,7 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRa
     }
   });
 
-  const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(10, 10, 10));
+  const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(20, 20, 20));
 
   return (
     <>

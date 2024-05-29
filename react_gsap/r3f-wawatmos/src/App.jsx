@@ -7,7 +7,7 @@ import MovingLights from './components/MovingLight';
 
 function App() {
   return (
-    <Canvas camera={{ position: [-1.5, 20 , 5], fov: 50, near: 0.1, far: 1000 }}>
+    <Canvas camera={{ position: [-1.5, 15 , 5], fov: 76, near: 0.1, far: 1000 }}>
       <color attach="background" args={["#ececec"]} />
       <ambientLight intensity={0.2} />
       <pointLight position={[11, 10, 10]} />

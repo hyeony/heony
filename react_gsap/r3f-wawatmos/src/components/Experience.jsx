@@ -44,16 +44,16 @@ const Experience = () => {
     composer.current.addPass(bloomPass);
 
     // dat.GUI 설정
-    gui.current = new GUI();
-    const bloomFolder = gui.current.addFolder('Bloom');
-    bloomFolder.add(params, 'threshold', 0.0, 1.0).onChange(value => bloomPass.threshold = Number(value));
-    bloomFolder.add(params, 'strength', 0.0, 10.0).onChange(value => bloomPass.strength = Number(value));
-    bloomFolder.add(params, 'radius', 0.0, 2.0).onChange(value => bloomPass.radius = Number(value));
-    bloomFolder.open();
+    // gui.current = new GUI();
+    // const bloomFolder = gui.current.addFolder('Bloom');
+    // bloomFolder.add(params, 'threshold', 0.0, 1.0).onChange(value => bloomPass.threshold = Number(value));
+    // bloomFolder.add(params, 'strength', 0.0, 10.0).onChange(value => bloomPass.strength = Number(value));
+    // bloomFolder.add(params, 'radius', 0.0, 2.0).onChange(value => bloomPass.radius = Number(value));
+    // bloomFolder.open();
 
-    return () => {
-      gui.current.destroy();
-    };
+    // return () => {
+    //   gui.current.destroy();
+    // };
   }, [gl, scene, camera, params]);
 
   useFrame(() => {
