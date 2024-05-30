@@ -1,6 +1,7 @@
 import { Environment, Sphere } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
+import ParticleSystem from "./ParticleSystem";
 
 export const Background = () => {
   return (
@@ -16,9 +17,7 @@ export const Background = () => {
           side={THREE.BackSide}
         />
       </Sphere>
-      <EffectComposer>
-        <Bloom intensity={0.7} luminanceThreshold={0.3} luminanceSmoothing={0.8} />
-      </EffectComposer>
+      <ParticleSystem />
     </>
   );
 };
