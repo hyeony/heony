@@ -15,17 +15,11 @@ export const Background = () => {
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
 
-    // Main light animation (slight movement and intensity variation)
-    if (mainLightRef.current) {
-      mainLightRef.current.position.x = Math.sin(time * 0.2) * 1;
-      mainLightRef.current.position.z = Math.cos(time * 0.2) * 1;
-      mainLightRef.current.intensity = 0.4 + Math.sin(time * 0.5) * 0.1;  // 강도를 0.4에서 0.5 사이로 변하게 함
-    }
-
     // Secondary light animation (slow, subtle movement)
     if (secondaryLightRef.current) {
-      secondaryLightRef.current.position.x = 10 + Math.sin(time * 0.1) * 2;
-      secondaryLightRef.current.position.z = 10 + Math.cos(time * 0.1) * 2;
+      secondaryLightRef.current.position.x = -10 + Math.sin(time * 0.1) * 2;
+      secondaryLightRef.current.position.z = -10 + Math.cos(time * 0.1) * 2;
+      secondaryLightRef.current.intensity = 0.5 + Math.sin(time * 0.3) * 0.2;  // 강도를 0.5에서 0.7 사이로 변하게 함
     }
   });
 
@@ -64,8 +58,8 @@ export const Background = () => {
 
       <directionalLight
         ref={secondaryLightRef}
-        intensity={0.2}  // 약한 빛의 강도 설정
-        position={[10, 5, 10]}  // 오른쪽 끝부분에서 비추도록 위치 설정
+        intensity={0.6}  // 약한 빛의 강도를 높임
+        position={[-15, 5, -15]}  // 오른쪽 끝부분에서 비추도록 위치 설정
       />
       <mesh ref={secondaryTargetRef} position={[0, 0, 0]} />
       
