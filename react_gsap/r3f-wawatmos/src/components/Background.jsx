@@ -7,8 +7,10 @@ import ParticleSystem from "./ParticleSystem";
 export const Background = () => {
   const mainLightRef = useRef();
   const secondaryLightRef = useRef();
+  const thirdLightRef = useRef();
   const mainTargetRef = useRef();
   const secondaryTargetRef = useRef();
+  const thirdTargetRef = useRef();
   const { scene } = useThree();
   
   // 애니메이션 루프를 추가하여 조명을 천천히 움직이게 함
@@ -17,9 +19,16 @@ export const Background = () => {
 
     // Secondary light animation (slow, subtle movement)
     if (secondaryLightRef.current) {
-      secondaryLightRef.current.position.x = -10 + Math.sin(time * 0.1) * 2;
-      secondaryLightRef.current.position.z = -10 + Math.cos(time * 0.1) * 2;
-      secondaryLightRef.current.intensity = 0.5 + Math.sin(time * 0.3) * 0.2;  // 강도를 0.5에서 0.7 사이로 변하게 함
+      secondaryLightRef.current.position.x = -45 + Math.sin(time * 0.1) * 2;
+      secondaryLightRef.current.position.z = -5 + Math.cos(time * 0.1) * 2;
+      secondaryLightRef.current.intensity = 0.8 + Math.sin(time * 0.3) * 0.2;  // 강도를 0.8에서 1.0 사이로 변하게 함
+    }
+
+    // Third light animation (slow, subtle movement)
+    if (thirdLightRef.current) {
+      thirdLightRef.current.position.x = 45 + Math.sin(time * 0.1) * 2;
+      thirdLightRef.current.position.z = 5 + Math.cos(time * 0.1) * 2;
+      thirdLightRef.current.intensity = 0.6 + Math.sin(time * 0.3) * 0.1;  // 강도를 0.6에서 0.7 사이로 변하게 함
     }
   });
 
@@ -32,6 +41,11 @@ export const Background = () => {
     if (secondaryLightRef.current) {
       // 두 번째 조명 설정
       secondaryLightRef.current.target = secondaryTargetRef.current;
+    }
+
+    if (thirdLightRef.current) {
+      // 세 번째 조명 설정
+      thirdLightRef.current.target = thirdTargetRef.current;
     }
   }, [scene]);
 
@@ -58,10 +72,17 @@ export const Background = () => {
 
       <directionalLight
         ref={secondaryLightRef}
-        intensity={0.8}  // 약한 빛의 강도를 높임
-        position={[-85, 20, -5]}  // 오른쪽 끝부분에서 비추도록 위치 설정
+        intensity={0.8}  // 강한 빛의 강도 설정
+        position={[-45, 20, -5]}  // 오른쪽 끝부분에서 비추도록 위치 설정
       />
       <mesh ref={secondaryTargetRef} position={[0, 0, 0]} />
+
+      <directionalLight
+        ref={thirdLightRef}
+        intensity={0.9}  // 강한 빛의 강도 설정
+        position={[45, 30, 15]}  // 오른쪽 위에서 비추도록 위치 설정
+      />
+      <mesh ref={thirdTargetRef} position={[0, 0, 0]} />
       
       <ParticleSystem />
     </>
