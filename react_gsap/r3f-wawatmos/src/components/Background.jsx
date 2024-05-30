@@ -58,8 +58,8 @@ export const Background = () => {
 
       <directionalLight
         ref={secondaryLightRef}
-        intensity={0.6}  // 약한 빛의 강도를 높임
-        position={[-15, 5, -15]}  // 오른쪽 끝부분에서 비추도록 위치 설정
+        intensity={0.8}  // 약한 빛의 강도를 높임
+        position={[-85, 20, -5]}  // 오른쪽 끝부분에서 비추도록 위치 설정
       />
       <mesh ref={secondaryTargetRef} position={[0, 0, 0]} />
       
