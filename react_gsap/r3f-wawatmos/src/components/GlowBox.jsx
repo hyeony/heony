@@ -48,7 +48,7 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRa
       </lineSegments>
       <line ref={lineRef} />
       <EffectComposer>
-        <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
+        <Bloom luminanceThreshold={0} luminanceSmoothing={0.5} height={300} />
       </EffectComposer>
     </>
   );

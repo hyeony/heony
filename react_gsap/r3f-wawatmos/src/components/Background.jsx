@@ -10,17 +10,17 @@ export const Background = () => {
         <meshStandardMaterial
           color={"red"}
           emissive={"white"}
-          emissiveIntensity={0.5}
-          metalness={0.6}
-          roughness={0.2}
+          emissiveIntensity={0.45}
+          metalness={0.4}
+          roughness={0.6}
           side={THREE.BackSide}
         />
       </Sphere>
       <EffectComposer>
-        <Bloom intensity={0.5} luminanceThreshold={0.2} luminanceSmoothing={0.9} />
+        <Bloom intensity={0.7} luminanceThreshold={0.3} luminanceSmoothing={0.8} />
       </EffectComposer>
     </>
   );
 };
 
-export default Background;
+export default Background;   
