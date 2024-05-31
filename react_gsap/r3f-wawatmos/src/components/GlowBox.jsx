@@ -7,6 +7,7 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
 const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRaycast }, ref) => {
   const raycasterRef = useRef(new THREE.Raycaster());
   const lineRef = useRef();
+  const lineMaterialRef = useRef(new THREE.LineBasicMaterial({ color: 'white', transparent: true, opacity: 0 }));
 
   useEffect(() => {
     const direction = new THREE.Vector3(0, 0, -1).applyEuler(finalRotation);
@@ -42,9 +43,10 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRa
 
   return (
     <>
-      <lineSegments ref={ref}>
+      <lineSegments ref={ref} material={lineMaterialRef.current}>
         <primitive object={edges} attach="geometry" />
-        <lineBasicMaterial color="white" linewidth={5} />
+        <lineBasicMaterial color="white" linewidth={15} transparent opacity={0} />
+
       </lineSegments>
       <line ref={lineRef} />
       <EffectComposer>

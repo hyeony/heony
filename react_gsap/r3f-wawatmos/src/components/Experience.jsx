@@ -23,8 +23,8 @@ const Experience = () => {
   const finalCameraPosition = new THREE.Vector3(-30, -160, -60);
   const finalCameraRotation = new THREE.Euler(-Math.PI / 6, -Math.PI / 4, 0);
   const distanceFromCamera = 50;
-  const startShowingY = -120;
-  const fullVisibleY = -160;
+  const startShowingY = -80;
+  const fullVisibleY = -120;
 
   const params = {
     threshold: 0.1,
@@ -45,51 +45,52 @@ const Experience = () => {
 
   }, [gl, scene, camera, params]);
 
-  useFrame(() => {
-    const scrollOffset = scroll.offset;
+useFrame(() => {
+  const scrollOffset = scroll.offset;
 
-    if (scrollOffset <= 0.3) {
-      const t = scrollOffset / 0.3;
-      camera.position.lerpVectors(
-        initialAnimationRef.current.position,
-        finalCameraPosition,
-        t
-      );
-      camera.rotation.set(
-        THREE.MathUtils.lerp(initialAnimationRef.current.rotation.x, finalCameraRotation.x, t),
-        THREE.MathUtils.lerp(initialAnimationRef.current.rotation.y, finalCameraRotation.y, t),
-        THREE.MathUtils.lerp(initialAnimationRef.current.rotation.z, finalCameraRotation.z, t)
-      );
-    } else {
-      const t = ((scrollOffset - 0.3) / 0.7) * Math.PI * 2;
-      const radiusX = 40;
-      const radiusZ = 40;
-      const centerX = -30;
-      const centerZ = -60;
-      const x = centerX + radiusX * Math.cos(t);
-      const z = centerZ + radiusZ * Math.sin(t);
-      camera.position.set(x, -160, z);
-
-      if (boxRef.current) {
-        camera.lookAt(boxRef.current.position);
-      }
-    }
+  if (scrollOffset <= 0.3) {
+    const t = scrollOffset / 0.3;
+    camera.position.lerpVectors(
+      initialAnimationRef.current.position,
+      finalCameraPosition,
+      t
+    );
+    camera.rotation.set(
+      THREE.MathUtils.lerp(initialAnimationRef.current.rotation.x, finalCameraRotation.x, t),
+      THREE.MathUtils.lerp(initialAnimationRef.current.rotation.y, finalCameraRotation.y, t),
+      THREE.MathUtils.lerp(initialAnimationRef.current.rotation.z, finalCameraRotation.z, t)
+    );
+  } else {
+    const t = ((scrollOffset - 0.3) / 0.7) * Math.PI * 2;
+    const radiusX = 40;
+    const radiusZ = 40;
+    const centerX = -30;
+    const centerZ = -60;
+    const x = centerX + radiusX * Math.cos(t);
+    const z = centerZ + radiusZ * Math.sin(t);
+    camera.position.set(x, -160, z);
 
     if (boxRef.current) {
-      if (camera.position.y < startShowingY) {
-        boxRef.current.material.opacity = THREE.MathUtils.lerp(
-          0,
-          1,
-          (startShowingY - camera.position.y) / (startShowingY - fullVisibleY)
-        );
-      } else {
-        boxRef.current.material.opacity = 0;
-      }
+      camera.lookAt(boxRef.current.position);
     }
+  }
 
-    // Bloom 효과를 적용하여 씬 렌더링
-    composer.current.render();
-  });
+  if (boxRef.current) {
+    const material = boxRef.current.material;
+    if (camera.position.y < startShowingY) {
+      material.opacity = THREE.MathUtils.lerp(
+        0,
+        1,
+        (startShowingY - camera.position.y) / (startShowingY - fullVisibleY)
+      );
+    } else {
+      material.opacity = 0;
+    }
+  }
+
+  // Bloom 효과를 적용하여 씬 렌더링
+  composer.current.render();
+});
 
   return (
     <>
