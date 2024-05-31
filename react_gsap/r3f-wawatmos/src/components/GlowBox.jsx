@@ -3,6 +3,9 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { EdgesGeometry } from 'three';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import { Line2 } from 'three/examples/jsm/lines/Line2';
+import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry';
+import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial';
 
 const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRaycast }, ref) => {
   const raycasterRef = useRef(new THREE.Raycaster());
@@ -39,7 +42,7 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRa
     }
   });
 
-  const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(20, 20, 20));
+  const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(30, 30, 30));
 
   return (
     <>

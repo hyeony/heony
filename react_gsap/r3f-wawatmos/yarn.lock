@@ -1356,10 +1356,10 @@ merge-value@^1.0.0:
     mixin-deep "^1.2.0"
     set-value "^2.0.0"
 
-meshline@^3.1.6:
-  version "3.3.0"
-  resolved "https://registry.npmjs.org/meshline/-/meshline-3.3.0.tgz"
-  integrity sha512-EKKf2TLnfyqUeA7ryWFKgT9HchTMATvECGZnMQjtlcyxK0sB8shVLVkemBUp9dB3tkDEmoqQDLJCPStjkH8D7A==
+meshline@^3.1.6, meshline@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.npmjs.org/meshline/-/meshline-3.2.1.tgz"
+  integrity sha512-/Zrhq1sbQCtqSsrud0hN/U8wOdKKOcxCWefEowZRHsosIcy1p87+2PlWSNO4s9zOoT/zjrQR8YikXYao8XCqVQ==
 
 meshoptimizer@~0.18.1:
   version "0.18.1"
