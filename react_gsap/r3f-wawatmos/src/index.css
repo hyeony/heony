@@ -19,3 +19,26 @@ body {
   color: #fff;
   text-transform: uppercase
 }
+
+.intro-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2; /* 캔버스 위에 위치하도록 설정 */
+  top: 0; /* 상단에 고정 */
+  transition: opacity 0.5s ease;
+}
+
+.intro-container.hidden {
+  opacity: 0;
+  z-index: -1; /* z-index를 낮추어 다른 요소들이 상호작용할 수 있도록 함 */
+}
+
+.intro-rectangle {
+  position: absolute;
+  top: 0; /* 상단에 고정 */
+  width: 25%; /* 각 직사각형의 너비를 25%로 설정 */
+  height: 100%;
+  background-color: #2f2f2f; /* 진한 회색 색상 */
+}
