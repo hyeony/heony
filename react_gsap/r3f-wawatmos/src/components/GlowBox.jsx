@@ -9,7 +9,7 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRa
   const raycasterRef = useRef(new THREE.Raycaster());
   const lineRef = useRef();
   const lineMaterialRef = useRef(new THREE.LineBasicMaterial({ color: 'white', transparent: true, opacity: 0 }));
-  const { scene: glbScene } = useGLTF('/models/cloud/model.glb');
+  const { scene: glbScene } = useGLTF('/models/cloud/flower.glb');
 
   useEffect(() => {
     const direction = new THREE.Vector3(0, 0, -1).applyEuler(finalRotation);
@@ -19,12 +19,19 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRa
     }
     if (glbScene) {
       glbScene.position.copy(boxPosition);
-      glbScene.scale.set(5, 5, 5);
+      glbScene.scale.set(10, 10, 10);
       if (glbSceneRef) {
         glbSceneRef.current = glbScene;
       }
       glbScene.traverse((child) => {
         if (child.isMesh) {
+          child.material = new THREE.MeshStandardMaterial({
+            color: child.material.color,
+            emissive: new THREE.Color(0x444444), // Adjust this color to your preference
+            emissiveIntensity: 4, // Adjust the intensity to your preference
+            metalness: 0, // Optional: Adjust the metalness to your preference
+            roughness: 30 // Optional: Adjust the roughness to your preference
+          });
           child.material.transparent = true;
           child.material.depthWrite = false; // Ensures transparency is handled correctly
         }
