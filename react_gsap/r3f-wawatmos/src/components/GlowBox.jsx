@@ -3,14 +3,13 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { EdgesGeometry } from 'three';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
-import { Line2 } from 'three/examples/jsm/lines/Line2';
-import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry';
-import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial';
+import { useGLTF } from '@react-three/drei';
 
-const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRaycast }, ref) => {
+const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRaycast, glbSceneRef }, ref) => {
   const raycasterRef = useRef(new THREE.Raycaster());
   const lineRef = useRef();
   const lineMaterialRef = useRef(new THREE.LineBasicMaterial({ color: 'white', transparent: true, opacity: 0 }));
+  const { scene: glbScene } = useGLTF('/models/cloud/model.glb');
 
   useEffect(() => {
     const direction = new THREE.Vector3(0, 0, -1).applyEuler(finalRotation);
@@ -18,7 +17,20 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRa
     if (ref.current) {
       ref.current.position.copy(boxPosition);
     }
-  }, [finalPosition, finalRotation, distanceFromCamera, ref]);
+    if (glbScene) {
+      glbScene.position.copy(boxPosition);
+      glbScene.scale.set(5, 5, 5);
+      if (glbSceneRef) {
+        glbSceneRef.current = glbScene;
+      }
+      glbScene.traverse((child) => {
+        if (child.isMesh) {
+          child.material.transparent = true;
+          child.material.depthWrite = false; // Ensures transparency is handled correctly
+        }
+      });
+    }
+  }, [finalPosition, finalRotation, distanceFromCamera, ref, glbScene, glbSceneRef]);
 
   useEffect(() => {
     if (lineRef.current) {
@@ -49,13 +61,12 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, onRa
       <lineSegments ref={ref} material={lineMaterialRef.current}>
         <primitive object={edges} attach="geometry" />
         <lineBasicMaterial color="white" linewidth={15} transparent opacity={0} />
-
       </lineSegments>
       <line ref={lineRef} />
+      <primitive object={glbScene} />
       <EffectComposer>
         <Bloom intensity={0.45} luminanceThreshold={0.1} luminanceSmoothing={0.5} />
       </EffectComposer>
-
     </>
   );
 });
