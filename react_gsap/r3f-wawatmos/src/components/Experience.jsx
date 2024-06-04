@@ -8,6 +8,7 @@ import { Background } from './Background';
 import TextComponent from './Text3d';
 import Grid3D from './Grid3d';
 import Box from './GlowBox';
+import { disableInstantTransitions } from 'framer-motion';
 
 extend({ UnrealBloomPass });
 
@@ -89,7 +90,7 @@ const Experience = () => {
               child.material.opacity = opacity;
               child.material.transparent = true;
             }
-          });
+          });disableInstantTransitions
         }
       } else {
         material.opacity = 0;
@@ -123,4 +124,4 @@ const Experience = () => {
   );
 };
 
-export default Experience;
+export default Experience; 
