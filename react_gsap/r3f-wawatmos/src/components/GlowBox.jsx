@@ -125,7 +125,7 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, glbS
       <primitive object={glbScene} />
       {/* {glbScene && <Bubbles modelPosition={modelPosition.current} />} */}
       <EffectComposer>
-        <Bloom intensity={0.8} luminanceThreshold={0.1} luminanceSmoothing={0.5} />
+        <Bloom intensity={0.4} luminanceThreshold={0.1} luminanceSmoothing={0.5} />
       </EffectComposer>
     </>
   );

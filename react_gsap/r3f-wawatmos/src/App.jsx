@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import Experience from './components/Experience';
 import { ScrollControls } from "@react-three/drei";
 import MovingLights from './components/MovingLight';
+import { Overlay } from './components/Overlay';
 
 const rectangleVariants = {
   hidden: { y: '0%', opacity: 1 },
@@ -52,6 +53,7 @@ function App() {
         <pointLight position={[11, 10, 10]} />
         <ScrollControls pages={10} damping={0.4}>
           <Experience />
+          <Overlay />
         </ScrollControls>
         <MovingLights />
       </Canvas>
