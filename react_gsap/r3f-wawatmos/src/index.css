@@ -70,8 +70,6 @@ body {
 }
 
 .main-title-stroke {
-  display: block;
-  width: 100%;
   color: white; /* Fill color set to white */
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: #ff4940;
@@ -85,8 +83,8 @@ body {
 
 
 .main-title-03 {
-  display: block;
-  width: 100%;
+  display: inline-block;
+
   color: #ff4940;
   font-size: 7em;
 }
