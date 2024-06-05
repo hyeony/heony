@@ -51,11 +51,11 @@ function App() {
         <color attach="background" args={["#ececec"]} />
         <ambientLight intensity={0.2} />
         <pointLight position={[11, 10, 10]} />
-        <ScrollControls pages={10} damping={0.4}>
+        <ScrollControls pages={7} damping={0.4}>
           <Experience />
           <Overlay />
+          <MovingLights />
         </ScrollControls>
-        <MovingLights />
       </Canvas>
     </>
   );
