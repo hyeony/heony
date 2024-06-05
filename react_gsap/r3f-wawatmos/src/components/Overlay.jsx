@@ -23,13 +23,18 @@ export const Overlay = () => {
     <>
       <Scroll html style={{ width: '100%' }}>
         <div className='main'>
-          <div className='main-title main-title-01' style={{ position: 'absolute', top: `285vh`, left: '50%', fontSize: '4em', transform: `translate(-135%,-50%)` }}>
-            <MainTitleStyled />
+          <div className='main-title main-title-01' style={{ position: 'absolute', top: `288vh`, left: '6em', transform: `translate(0%,-50%)` }}>
+            Beyound Digital Horizon
           </div>
-          <h1 className='main-title main-title-02' style={{ position: 'absolute', top: `288vh`, left: '50%', fontSize: '10em', transform: `translate(-80%,-50%)` }}>
-            TEST
+          <h1 className='main-title main-title-stroke main-title-02' style={{ position: 'absolute', top: `288vh`, left: '50%', transform: `translate(-40%,-50%)` }}>
+          BOOMING IDEAS
           </h1>
-          <div className='main-title main-title-03' style={{ position: 'absolute', top: `315vh`, left: '50%', fontSize: '10em', transform: `translate(-61%,-50%)` }}>TECHNOLOGY</div>
+          <div className='main-title main-title-03' style={{ position: 'absolute', top: `311vh`, left: '50%', transform: `translate(-40%,-50%)` }}>
+            WEB3
+          </div>
+          <div className='main-title main-title-stroke main-title-04' style={{ position: 'absolute', top: `325vh`, left: '50%', transform: `translate(-40%,-50%)` }}>
+            TECHNOLOGY
+          </div>
 
           <div className='row' style={{ position: 'absolute', top: `330vh` }}>
             <div className='col' style={{ position: 'absolute', right: `40px`, width: "540px" }}>
