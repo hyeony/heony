@@ -35,14 +35,6 @@ export const Overlay = () => {
           <div className='main-title main-title-stroke main-title-04' style={{ top: `325vh`, left: '50%', transform: `translate(-40%,-50%)` }}>
             TECHNOLOGY
           </div>
-
-          <div className='row' style={{ position: 'absolute', top: `330vh` }}>
-            <div className='col' style={{ position: 'absolute', right: `40px`, width: "540px" }}>
-              <h2 style={{ maxWidth: "440px" }}>Tech-Savvy Side</h2>
-              <p style={{ maxWidth: '440px' }}>Featuring a sleek, metallic design inspired by advanced technology, this aftershave bottle is as stylish as it is functional. But it's not just a pretty face - inside, you'll find a nourishing and protective aftershave formula that will leave your skin feeling refreshed and hydrated.</p>
-              <button>Read more</button>
-            </div>
-          </div>
         </div>
       </Scroll>
     </>
