@@ -8,7 +8,6 @@ import { Background } from './Background';
 import TextComponent from './Text3d';
 import Grid3D from './Grid3d';
 import Box from './GlowBox';
-import { disableInstantTransitions } from 'framer-motion';
 
 extend({ UnrealBloomPass });
 
@@ -31,6 +30,25 @@ const Experience = () => {
     strength: 2.0,
     radius: 1.0
   };
+
+  const mouseOffset = useRef({ x: 0, y: 0 });
+  const mouseFactor = 0.01; // 마우스 이동 감도 조절
+  const lerpFactor = 0.05; // 마우스 이동 부드럽게 적용
+
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      const { innerWidth, innerHeight } = window;
+      const x = (event.clientX / innerWidth - 0.5) * 2;
+      const y = (event.clientY / innerHeight - 0.5) * 2;
+      mouseOffset.current = { x, y };
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   useLayoutEffect(() => {
     initialAnimationRef.current.position.copy(camera.position);
@@ -90,7 +108,7 @@ const Experience = () => {
               child.material.opacity = opacity;
               child.material.transparent = true;
             }
-          });disableInstantTransitions
+          });
         }
       } else {
         material.opacity = 0;
@@ -103,6 +121,10 @@ const Experience = () => {
         }
       }
     }
+
+    // 카메라의 초기 회전을 유지하면서 마우스 이동에 따른 부드러운 회전 추가
+    camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, initialAnimationRef.current.rotation.x + mouseOffset.current.y * mouseFactor, lerpFactor);
+    camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, initialAnimationRef.current.rotation.y + mouseOffset.current.x * mouseFactor, lerpFactor);
 
     // Bloom 효과를 적용하여 씬 렌더링
     composer.current.render();
@@ -124,4 +146,4 @@ const Experience = () => {
   );
 };
 
-export default Experience; 
+export default Experience;
