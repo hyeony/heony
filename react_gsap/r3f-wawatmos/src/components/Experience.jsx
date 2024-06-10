@@ -143,11 +143,12 @@ const Experience = () => {
           });
         }
       } else {
-        material.opacity = 0;
+        const opacity = 0;
+        material.opacity = opacity;
         if (glbSceneRef.current) {
           glbSceneRef.current.traverse((child) => {
             if (child.isMesh) {
-              child.material.opacity = 0;
+              child.material.opacity = opacity;
               child.material.transparent = true;
               child.material.depthWrite = false;
             }
