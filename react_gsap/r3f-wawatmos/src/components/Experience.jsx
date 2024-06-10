@@ -34,11 +34,13 @@ const Experience = () => {
   const mouseOffset = useRef({ x: 0, y: 0 });
   const targetPosition = useRef(new THREE.Vector3());
   const targetRotation = useRef(new THREE.Euler());
+  const previousTime = useRef(0);
 
-  const dampingFactor = 0.1; // 댐핑 효과 조절
-  const mouseFactor = 2.0; // 마우스 이동 감도 조절 (작게 조정)
-  const rotationFactor = 0.005; // 회전 감도 조절 (작게 조정)
-  const zFactor = 0.5; // Z축 이동 감도 조절 (작게 조정)
+  const dampingTime = 0.8; // 댐핑 시간 (1초로 조정)
+
+  const mouseFactor = 3.0; // 마우스 이동 감도 조절 (약간 증가)
+  const rotationFactor = 0.01; // 회전 감도 조절 (증가)
+  const zFactor = 1.0; // Z축 이동 감도 조절 (증가)
 
   useEffect(() => {
     const handleMouseMove = (event) => {
@@ -67,7 +69,11 @@ const Experience = () => {
     composer.current.addPass(bloomPass);
   }, [gl, scene, camera, params]);
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
+    const currentTime = clock.getElapsedTime();
+    const deltaTime = currentTime - previousTime.current;
+    previousTime.current = currentTime;
+
     const scrollOffset = scroll.offset;
 
     if (scrollOffset <= 0.3) {
@@ -133,10 +139,32 @@ const Experience = () => {
     targetRotation.current.x += mouseOffset.current.y * rotationFactor;
     targetRotation.current.y += mouseOffset.current.x * rotationFactor;
 
-    // 현재 위치와 회전을 목표 위치와 회전으로 댐핑 적용
+    // 현재 위치와 회전을 목표 위치와 회전으로 댐핑 적용 (마우스 이동에만 적용)
+    const dampingFactor = deltaTime / dampingTime;
     camera.position.lerp(targetPosition.current, dampingFactor);
     camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, targetRotation.current.x, dampingFactor);
     camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, targetRotation.current.y, dampingFactor);
+
+    // 스크롤에 따른 Y값 변화는 기존대로 유지
+    if (scrollOffset <= 0.3) {
+      const t = scrollOffset / 0.3;
+      camera.position.y = THREE.MathUtils.lerp(initialAnimationRef.current.position.y, finalCameraPosition.y, t);
+      camera.rotation.x = THREE.MathUtils.lerp(initialAnimationRef.current.rotation.x, finalCameraRotation.x, t);
+      camera.rotation.y = THREE.MathUtils.lerp(initialAnimationRef.current.rotation.y, finalCameraRotation.y, t);
+      camera.rotation.z = THREE.MathUtils.lerp(initialAnimationRef.current.rotation.z, finalCameraRotation.z, t);
+    } else {
+      const t = ((scrollOffset - 0.3) / 0.7) * Math.PI * 2;
+      const radiusX = 40;
+      const radiusZ = 40;
+      const centerX = -30;
+      const centerZ = -60;
+      const x = centerX + radiusX * Math.cos(t);
+      const z = centerZ + radiusZ * Math.sin(t);
+      camera.position.set(x, -160, z);
+      if (boxRef.current) {
+        camera.lookAt(boxRef.current.position);
+      }
+    }
 
     // Bloom 효과를 적용하여 씬 렌더링
     composer.current.render();
