@@ -17,7 +17,7 @@ const Experience = () => {
   const initialAnimationRef = useRef({ position: new THREE.Vector3(), rotation: new THREE.Euler() });
   const boxRef = useRef();
   const composer = useRef();
-  const glbSceneRef = useRef(); 
+  const glbSceneRef = useRef();
 
   const finalCameraPosition = new THREE.Vector3(-30, -160, -60);
   const finalCameraRotation = new THREE.Euler(-Math.PI / 6, -Math.PI / 4, 0);
@@ -32,8 +32,11 @@ const Experience = () => {
   };
 
   const mouseOffset = useRef({ x: 0, y: 0 });
-  const mouseFactor = 0.01; // 마우스 이동 감도 조절
-  const lerpFactor = 0.05; // 마우스 이동 부드럽게 적용
+  const mouseFactor = 5.0; // 마우스 이동 감도 조절 (크게 증가시켰습니다)
+  const lerpFactor = 0.1; // 마우스 이동 부드럽게 적용 (조금 더 빠르게 적용되도록 변경했습니다)
+
+  const prevCameraPosition = useRef(new THREE.Vector3());
+  const prevCameraRotation = useRef(new THREE.Euler());
 
   useEffect(() => {
     const handleMouseMove = (event) => {
@@ -65,6 +68,8 @@ const Experience = () => {
 
   useFrame(() => {
     const scrollOffset = scroll.offset;
+
+    let cameraChanged = false;
 
     if (scrollOffset <= 0.3) {
       const t = scrollOffset / 0.3;
@@ -101,7 +106,10 @@ const Experience = () => {
           1,
           (startShowingY - camera.position.y) / (startShowingY - fullVisibleY)
         );
-        material.opacity = opacity;
+        if (material.opacity !== opacity) {
+          material.opacity = opacity;
+          cameraChanged = true;
+        }
         if (glbSceneRef.current) {
           glbSceneRef.current.traverse((child) => {
             if (child.isMesh) {
@@ -110,7 +118,7 @@ const Experience = () => {
             }
           });
         }
-      } else {
+      } else if (material.opacity !== 0) {
         material.opacity = 0;
         if (glbSceneRef.current) {
           glbSceneRef.current.traverse((child) => {
@@ -119,12 +127,32 @@ const Experience = () => {
             }
           });
         }
+        cameraChanged = true;
       }
     }
 
+    // 현재 카메라 위치와 회전 값에 마우스 이동 값을 더하거나 빼는 방식으로 적용
+    const mouseAdjustedPositionX = camera.position.x + mouseOffset.current.x * mouseFactor;
+    const mouseAdjustedPositionY = camera.position.y + mouseOffset.current.y * mouseFactor;
+
+    // 기존 애니메이션에 마우스 이동 값을 더한 최종 카메라 위치 및 회전
+    const newPosition = new THREE.Vector3(mouseAdjustedPositionX, mouseAdjustedPositionY, camera.position.z);
+    camera.position.lerp(newPosition, lerpFactor);
+
     // 카메라의 초기 회전을 유지하면서 마우스 이동에 따른 부드러운 회전 추가
-    camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, initialAnimationRef.current.rotation.x + mouseOffset.current.y * mouseFactor, lerpFactor);
-    camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, initialAnimationRef.current.rotation.y + mouseOffset.current.x * mouseFactor, lerpFactor);
+    const mouseAdjustedRotationX = camera.rotation.x + mouseOffset.current.y * mouseFactor * 0.01;
+    const mouseAdjustedRotationY = camera.rotation.y + mouseOffset.current.x * mouseFactor * 0.01;
+
+    camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouseAdjustedRotationX, lerpFactor);
+    camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, mouseAdjustedRotationY, lerpFactor);
+
+    // 카메라 위치나 회전이 변경되었을 때만 로그 출력
+    if (!prevCameraPosition.current.equals(camera.position) || !prevCameraRotation.current.equals(camera.rotation)) {
+      console.log(`Camera Position - X: ${camera.position.x}, Y: ${camera.position.y}, Z: ${camera.position.z}`);
+      console.log(`Camera Rotation - X: ${camera.rotation.x}, Y: ${camera.rotation.y}, Z: ${camera.rotation.z}`);
+      prevCameraPosition.current.copy(camera.position);
+      prevCameraRotation.current.copy(camera.rotation);
+    }
 
     // Bloom 효과를 적용하여 씬 렌더링
     composer.current.render();
