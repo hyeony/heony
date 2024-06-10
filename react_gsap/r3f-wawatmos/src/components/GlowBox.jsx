@@ -78,11 +78,11 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, glbS
       glbScene.traverse((child) => {
         if (child.isMesh) {
           child.material = new THREE.MeshStandardMaterial({
-            color: child.material.color,
-            emissive: new THREE.Color(0x444444),
-            emissiveIntensity: 1.0,
-            metalness: 0.1,
-            roughness: 0.8
+            color: new THREE.Color(0xFFD1DC), // 파스텔톤 녹색
+            emissive: new THREE.Color(0xFFD1DC),
+            emissiveIntensity: 0.1,
+            metalness: 0,
+            roughness: 1
           });
           child.material.transparent = true;
           child.material.depthWrite = false;

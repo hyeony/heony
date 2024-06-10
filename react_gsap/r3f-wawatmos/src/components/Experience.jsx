@@ -103,48 +103,6 @@ const Experience = () => {
       }
     }
 
-    if (boxRef.current) {
-      const material = boxRef.current.material;
-      if (camera.position.y < startShowingY) {
-        const opacity = THREE.MathUtils.lerp(
-          0,
-          1,
-          (startShowingY - camera.position.y) / (startShowingY - fullVisibleY)
-        );
-        material.opacity = opacity;
-        if (glbSceneRef.current) {
-          glbSceneRef.current.traverse((child) => {
-            if (child.isMesh) {
-              child.material.opacity = opacity;
-              child.material.transparent = true;
-            }
-          });
-        }
-      } else {
-        material.opacity = 0;
-        if (glbSceneRef.current) {
-          glbSceneRef.current.traverse((child) => {
-            if (child.isMesh) {
-              child.material.opacity = 0;
-            }
-          });
-        }
-      }
-    }
-
-    // 마우스 이동에 따른 목표 위치와 회전값 업데이트 (Y축은 제외)
-    targetPosition.current.x += mouseOffset.current.x * mouseFactor;
-    targetPosition.current.z += mouseOffset.current.y * zFactor; // Z축 업데이트 추가
-
-    targetRotation.current.x += mouseOffset.current.y * rotationFactor;
-    targetRotation.current.y += mouseOffset.current.x * rotationFactor;
-
-    // 현재 위치와 회전을 목표 위치와 회전으로 댐핑 적용 (마우스 이동에만 적용)
-    const dampingFactor = deltaTime / dampingTime;
-    camera.position.lerp(targetPosition.current, dampingFactor);
-    camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, targetRotation.current.x, dampingFactor);
-    camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, targetRotation.current.y, dampingFactor);
-
     // 스크롤에 따른 Y값 변화는 기존대로 유지
     if (scrollOffset <= 0.3) {
       const t = scrollOffset / 0.3;
@@ -166,6 +124,51 @@ const Experience = () => {
       }
     }
 
+    if (boxRef.current) {
+      const material = boxRef.current.material;
+      if (camera.position.y < startShowingY) {
+        const opacity = THREE.MathUtils.lerp(
+          0,
+          1,
+          (startShowingY - camera.position.y) / (startShowingY - fullVisibleY)
+        );
+        material.opacity = opacity;
+        if (glbSceneRef.current) {
+          glbSceneRef.current.traverse((child) => {
+            if (child.isMesh) {
+              child.material.opacity = opacity;
+              child.material.transparent = false;
+              child.material.depthWrite = true;
+            }
+          });
+        }
+      } else {
+        material.opacity = 0;
+        if (glbSceneRef.current) {
+          glbSceneRef.current.traverse((child) => {
+            if (child.isMesh) {
+              child.material.opacity = 0;
+              child.material.transparent = true;
+              child.material.depthWrite = false;
+            }
+          });
+        }
+      }
+    }
+
+    // 마우스 이동에 따른 목표 위치와 회전값 업데이트 (Y축은 제외)
+    targetPosition.current.x += mouseOffset.current.x * mouseFactor;
+    targetPosition.current.z += mouseOffset.current.y * zFactor; // Z축 업데이트 추가
+
+    targetRotation.current.x += mouseOffset.current.y * rotationFactor;
+    targetRotation.current.y += mouseOffset.current.x * rotationFactor;
+
+    // 현재 위치와 회전을 목표 위치와 회전으로 댐핑 적용 (마우스 이동에만 적용)
+    const dampingFactor = deltaTime / dampingTime;
+    camera.position.lerp(targetPosition.current, dampingFactor);
+    camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, targetRotation.current.x, dampingFactor);
+    camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, targetRotation.current.y, dampingFactor);
+
     // Bloom 효과를 적용하여 씬 렌더링
     composer.current.render();
   });
@@ -180,7 +183,7 @@ const Experience = () => {
         finalPosition={finalCameraPosition}
         finalRotation={finalCameraRotation}
         distanceFromCamera={distanceFromCamera}
-        glbSceneRef={glbSceneRef} 
+        glbSceneRef={glbSceneRef}
       />
     </>
   );
