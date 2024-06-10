@@ -63,13 +63,13 @@ const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, glbS
     const boxPosition = finalPosition.clone().add(direction.multiplyScalar(distanceFromCamera));
     if (ref.current) {
       ref.current.position.copy(boxPosition);
-      console.log('Box Position:', ref.current.position); 
+      // console.log('Box Position:', ref.current.position); 
     }
     if (glbScene) {
       glbScene.position.copy(boxPosition);
       modelPosition.current.copy(boxPosition); // Store the model's position
 
-      console.log('GLB Model Position:', glbScene.position); // Log GLB Model Position
+      // console.log('GLB Model Position:', glbScene.position); // Log GLB Model Position
 
       glbScene.scale.set(10, 10, 10);
       if (glbSceneRef) {
