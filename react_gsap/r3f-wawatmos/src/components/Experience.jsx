@@ -36,11 +36,11 @@ const Experience = () => {
   const targetRotation = useRef(new THREE.Euler());
   const previousTime = useRef(0);
 
-  const dampingTime = 0.8; // 댐핑 시간 (1초로 조정)
+  const dampingTime = 0.8; // 댐핑 시간
 
-  const mouseFactor = 3.0; // 마우스 이동 감도 조절 (약간 증가)
-  const rotationFactor = 0.01; // 회전 감도 조절 (증가)
-  const zFactor = 1.0; // Z축 이동 감도 조절 (증가)
+  const mouseFactor = 0.5; // 마우스 이동 감도 조절 (감소)
+  const rotationFactor = 0.005; // 회전 감도 조절 (감소)
+  const zFactor = 0.5; // Z축 이동 감도 조절 (감소)
 
   useEffect(() => {
     const handleMouseMove = (event) => {
