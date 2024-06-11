@@ -110,7 +110,8 @@ const Experience = () => {
           glbSceneRef.current.traverse((child) => {
             if (child.isMesh) {
               child.material.opacity = opacity;
-              child.material.transparent = true;
+              child.material.transparent = false;
+              child.material.depthWrite = true;
             }
           });
         }
@@ -120,6 +121,7 @@ const Experience = () => {
           glbSceneRef.current.traverse((child) => {
             if (child.isMesh) {
               child.material.opacity = 0;
+              child.material.transparent = true;
             }
           });
         }
