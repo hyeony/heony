@@ -21,7 +21,7 @@ const Experience = () => {
 
   const finalCameraPosition = new THREE.Vector3(-30, -160, -60);
   const finalCameraRotation = new THREE.Euler(-Math.PI / 6, -Math.PI / 4, 0);
-  const distanceFromCamera = 50;
+  const distanceFromCamera = 50; // 여기서 distanceFromCamera를 정의합니다.
   const startShowingY = -80;
   const fullVisibleY = -120;
 
@@ -67,6 +67,18 @@ const Experience = () => {
     composer.current.addPass(bloomPass);
   }, [gl, scene, camera, params]);
 
+  useEffect(() => {
+    if (glbSceneRef.current) {
+      glbSceneRef.current.traverse((child) => {
+        if (child.isMesh) {
+          child.material.opacity = 0;
+          child.material.transparent = true;
+          child.material.depthWrite = false;
+        }
+      });
+    }
+  }, [glbSceneRef.current]);
+
   useFrame(() => {
     const scrollOffset = scroll.offset;
 
@@ -110,8 +122,8 @@ const Experience = () => {
           glbSceneRef.current.traverse((child) => {
             if (child.isMesh) {
               child.material.opacity = opacity;
-              child.material.transparent = false;
-              child.material.depthWrite = true;
+              child.material.transparent = opacity < 1;
+              child.material.depthWrite = opacity === 1;
             }
           });
         }
@@ -122,6 +134,7 @@ const Experience = () => {
             if (child.isMesh) {
               child.material.opacity = 0;
               child.material.transparent = true;
+              child.material.depthWrite = false;
             }
           });
         }
