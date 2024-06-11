@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Canvas } from "@react-three/fiber";
 import Experience from './components/Experience';
-import { ScrollControls } from "@react-three/drei";
+import { ScrollControls, Scroll } from "@react-three/drei";
 import MovingLights from './components/MovingLight';
 import { Overlay } from './components/Overlay';
 
@@ -46,15 +46,19 @@ function App() {
           />
         ))}
       </div>
-      <h1 className="logo">Precise</h1>
+      <a href="/" className="logo">
+        <h1 className="logo">Precise</h1>
+      </a>
       <Canvas camera={{ position: [-1.5, 15 , 5], fov: 76, near: 0.1, far: 1000 }}>
         <color attach="background" args={["#ececec"]} />
         <ambientLight intensity={0.2} />
         <pointLight position={[11, 10, 10]} />
         <ScrollControls pages={7} damping={0.4}>
           <Experience />
-          <Overlay />
           <MovingLights />
+          <Scroll html>
+            <Overlay />
+          </Scroll>
         </ScrollControls>
       </Canvas>
     </>

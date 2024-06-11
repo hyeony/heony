@@ -1,26 +1,32 @@
-import { Scroll, useScroll } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { motion, useAnimation } from 'framer-motion';
 
 const Section = styled.div`
   position: relative;
-  height: 55vh; /* 각 섹션의 높이를 설정합니다. */
+  height: 90vh;
   width: 100%;
-  display: flex;
-  flex-direction: column; /* 텍스트를 수직으로 나열 */
-  justify-content: center; /* 수직 정렬 */
-  padding: 0 7vw; /* 양쪽에 여백을 줍니다. */
+  padding: 0 7vw;
   box-sizing: border-box;
 `;
 
 const TextContainer = styled.div`
-  display: inline-block;
+  display: block;
+  overflow: hidden;
+`;
+
+const Text = styled(motion.div)`
+  transform: translateY(100%); /* 처음에는 숨겨진 상태로 설정 */
+  opacity: 0; /* 처음에는 투명 상태로 설정 */
+  &.main-title-01 {
+    /* 기존 클래스에 대한 스타일을 추가할 수 있습니다 */
+  }
+  &.main-title-stroke {
+    /* 기존 클래스에 대한 스타일을 추가할 수 있습니다 */
+  }
 `;
 
 const sections = [
-  [],
-  [],
   [],
   [
     { text: 'Beyond Digital Horizon', className: 'main-title main-title-01', align: 'left' },
@@ -37,22 +43,49 @@ const sections = [
   ]
 ];
 
+const textVariants = {
+  hidden: { y: '100%', opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: 'easeOut' } }
+};
+
 export const Overlay = () => {
-  const scroll = useScroll();
+  const controls = useAnimation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      controls.start({
+        y: scrollY * -0.1, // 스크롤에 따라 텍스트의 y 위치를 조정
+        transition: { type: 'spring', stiffness: 50 },
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [controls]);
 
   return (
-    <Scroll html style={{ width: '100%' }}>
-      {sections.map((section, index) => (
-        <Section key={index}>
-          {section.map((textItem, textIndex) => (
-            <TextContainer key={textIndex} align={textItem.align}>
-              <div className={textItem.className}>
-                {textItem.text}
-              </div>
-            </TextContainer>
-          ))}
+    <div style={{ width: '100%' }}>
+      {sections.map((section, sectionIndex) => (
+        <Section key={sectionIndex} className={sectionIndex === 0 ? 'first-section' : ''}>
+          {section.map((textItem, textIndex) => {
+            const flatIndex = sectionIndex > 0 ? textIndex + sections[1].length * (sectionIndex - 1) : textIndex;
+            return (
+              <TextContainer key={textIndex}>
+                <Text 
+                  className={`text-${flatIndex} ${textItem.className}`}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={textVariants}
+                >
+                  {textItem.text}
+                </Text>
+              </TextContainer>
+            );
+          })}
         </Section>
       ))}
-    </Scroll>
+    </div>
   );
 };
