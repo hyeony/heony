@@ -25,6 +25,10 @@ body {
   text-transform: uppercase
 }
 
+canvas + div >div>div {
+  width: 100%;
+}
+
 .canvas-container {
   position: relative;
   width: 100%;
@@ -42,6 +46,12 @@ body {
 
 .first-section {
   height: 120vh !important;
+}
+
+.last-section {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
 
 .intro-container {
@@ -76,7 +86,7 @@ body {
   font-weight: 900;
   font-style: normal;
   color: #ff4940;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .main-title-01 {
@@ -84,7 +94,7 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  font-size: 1.6em;
+  font-size:28px;
   text-transform: capitalize;
 }
 
@@ -97,7 +107,7 @@ body {
   text-stroke-color: black;
   /* Make fill color transparent */
   color: transparent;
-  font-size: 7em;
+  font-size: 8.2333vw;
 }
 
 .main-title-03 {

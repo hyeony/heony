@@ -67,7 +67,7 @@ export const Overlay = () => {
   return (
     <div style={{ width: '100%' }}>
       {sections.map((section, sectionIndex) => (
-        <Section key={sectionIndex} className={sectionIndex === 0 ? 'first-section' : ''}>
+        <Section key={sectionIndex} className={`${sectionIndex === 0 ? 'first-section' : ''} ${sectionIndex === sections.length - 1 ? 'last-section' : ''}`}>
           {section.map((textItem, textIndex) => {
             const flatIndex = sectionIndex > 0 ? textIndex + sections[1].length * (sectionIndex - 1) : textIndex;
             return (
