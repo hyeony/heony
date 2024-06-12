@@ -11,4 +11,10 @@ export default defineConfig({
       enforce: 'pre',
     },
   ],
-})
+  define: {
+    'process.env': process.env
+  },
+  build: {
+    chunkSizeWarningLimit: 1600
+}
+});

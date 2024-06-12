@@ -52,10 +52,13 @@ const Bubbles = ({ modelPosition }) => {
 };
 
 const Box = forwardRef(({ finalPosition, finalRotation, distanceFromCamera, glbSceneRef }, ref) => {
+
   const raycasterRef = useRef(new THREE.Raycaster());
   const lineRef = useRef();
   const lineMaterialRef = useRef(new THREE.LineBasicMaterial({ color: 'white', transparent: true, opacity: 0 }));
-  const { scene: glbScene } = useGLTF('/models/cloud/flower.glb');
+  
+  const modelPath = import.meta.env.VITE_MODEL_PATH || '/models/cloud/flower.glb';
+  const { scene: glbScene } = useGLTF(modelPath);
   const modelPosition = useRef(new THREE.Vector3());
 
   useEffect(() => {
