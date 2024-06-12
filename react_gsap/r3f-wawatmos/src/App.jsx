@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Canvas } from "@react-three/fiber";
 import Experience from './components/Experience';
 import { ScrollControls, Scroll } from "@react-three/drei";
-import MovingLights from './components/MovingLight';
+import MovingLight from './components/MovingLight';
 import { Overlay } from './components/Overlay';
 
 const rectangleVariants = {
@@ -55,7 +55,8 @@ function App() {
         <pointLight position={[11, 10, 10]} />
         <ScrollControls pages={7} damping={0.4}>
           <Experience />
-          <MovingLights />
+          <MovingLight />
+          <MovingLight opposite={true} />
           <Scroll html>
             <Overlay />
           </Scroll>
