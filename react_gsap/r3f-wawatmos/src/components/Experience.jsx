@@ -36,7 +36,7 @@ const Experience = () => {
   const targetRotation = useRef(new THREE.Euler());
 
   const dampingFactor = 0.1; // 댐핑 효과 조절
-  const mouseFactor = 1.0; // 마우스 이동 감도 조절 (작게 조정)
+  const mouseFactor = 1.0; // 마우스 이동 감도
   const rotationFactor = 0.003; // 회전 감도 조절 (작게 조정)
   const zFactor = 0.3; // Z축 이동 감도 조절 (작게 조정)
 

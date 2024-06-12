@@ -18,12 +18,6 @@ const TextContainer = styled.div`
 const Text = styled(motion.div)`
   transform: translateY(100%); /* 처음에는 숨겨진 상태로 설정 */
   opacity: 0; /* 처음에는 투명 상태로 설정 */
-  &.main-title-01 {
-    /* 기존 클래스에 대한 스타일을 추가할 수 있습니다 */
-  }
-  &.main-title-stroke {
-    /* 기존 클래스에 대한 스타일을 추가할 수 있습니다 */
-  }
 `;
 
 const sections = [

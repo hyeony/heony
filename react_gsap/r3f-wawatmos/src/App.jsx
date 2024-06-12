@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { Canvas } from "@react-three/fiber";
 import Experience from './components/Experience';
 import { ScrollControls, Scroll } from "@react-three/drei";
-import MovingLight from './components/MovingLight';
 import { Overlay } from './components/Overlay';
 
+//intro 박스
 const rectangleVariants = {
   hidden: { y: '0%', opacity: 1 },
   visible: (i) => ({
     y: '-100%',
-    opacity: 1, // 투명도를 유지
+    opacity: 1,
     transition: {
       delay: i === 1 ? 0 : i === 2 ? 0.2 : i === 0 ? 0.4 : 0.6,
       duration: i === 3 ? 2 : 1.5,
@@ -42,7 +42,7 @@ function App() {
             initial="hidden"
             animate="visible"
             variants={rectangleVariants}
-            style={{ left: `${i * 25}%` }} // 각 직사각형의 위치를 다르게 설정
+            style={{ left: `${i * 25}%` }}
           />
         ))}
       </div>
@@ -55,8 +55,6 @@ function App() {
         <pointLight position={[11, 10, 10]} />
         <ScrollControls pages={7} damping={0.4}>
           <Experience />
-          <MovingLight />
-          <MovingLight opposite={true} />
           <Scroll html>
             <Overlay />
           </Scroll>

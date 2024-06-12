@@ -12,39 +12,36 @@ export const Background = () => {
   const secondaryTargetRef = useRef();
   const thirdTargetRef = useRef();
   const { scene } = useThree();
-  
-  // 애니메이션 루프를 추가하여 조명을 천천히 움직이게 함
+
+  // 조명의 위치와 강도 업데이트
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
 
     // Secondary light animation (slow, subtle movement)
     if (secondaryLightRef.current) {
-      secondaryLightRef.current.position.x = -45 + Math.sin(time * 0.1) * 2;
+      secondaryLightRef.current.position.x = -25 + Math.sin(time * 0.1) * 2;
       secondaryLightRef.current.position.z = -5 + Math.cos(time * 0.1) * 2;
-      secondaryLightRef.current.intensity = 0.8 + Math.sin(time * 0.3) * 0.2;  // 강도를 0.8에서 1.0 사이로 변하게 함
+      secondaryLightRef.current.intensity = 0.8 + Math.sin(time * 0.3) * 0.2;
     }
 
     // Third light animation (slow, subtle movement)
     if (thirdLightRef.current) {
-      thirdLightRef.current.position.x = 45 + Math.sin(time * 0.1) * 2;
+      thirdLightRef.current.position.x = 25 + Math.sin(time * 0.1) * 2;
       thirdLightRef.current.position.z = 5 + Math.cos(time * 0.1) * 2;
-      thirdLightRef.current.intensity = 0.6 + Math.sin(time * 0.3) * 0.1;  // 강도를 0.6에서 0.7 사이로 변하게 함
+      thirdLightRef.current.intensity = 0.6 + Math.sin(time * 0.3) * 0.1;
     }
   });
 
   useEffect(() => {
     if (mainLightRef.current) {
-      // 메인 조명 설정
       mainLightRef.current.target = mainTargetRef.current;
     }
 
     if (secondaryLightRef.current) {
-      // 두 번째 조명 설정
       secondaryLightRef.current.target = secondaryTargetRef.current;
     }
 
     if (thirdLightRef.current) {
-      // 세 번째 조명 설정
       thirdLightRef.current.target = thirdTargetRef.current;
     }
   }, [scene]);
@@ -56,34 +53,34 @@ export const Background = () => {
         <meshStandardMaterial
           color={"skyblue"}
           emissive={"white"}
-          emissiveIntensity={0.1}  // 발광 강도를 줄임
-          metalness={0.2}  // 금속성 반사를 줄임
-          roughness={0.5}  // 표면 반사를 줄임
+          emissiveIntensity={0.1}  // 발광 강도
+          metalness={0.2}
+          roughness={0.5}  // 표면 반사
           side={THREE.BackSide}
         />
       </Sphere>
       <directionalLight
         ref={mainLightRef}
-        intensity={0.5}  // 초기 빛의 강도 설정
-        position={[0, 10, 0]}  // 빛의 위치를 조정하여 탑뷰에서 비추도록 설정
+        intensity={0.5}
+        position={[0, 10, 0]}  // 탑뷰에서 비추도록 설정
         castShadow
       />
       <mesh ref={mainTargetRef} position={[0, 0, 0]} />
 
       <directionalLight
         ref={secondaryLightRef}
-        intensity={0.8}  // 강한 빛의 강도 설정
-        position={[-45, 20, -5]}  // 오른쪽 끝부분에서 비추도록 위치 설정
+        intensity={0.8}
+        position={[-10, 20, 0]}  // x 값을 중앙에 가깝게 조정
       />
       <mesh ref={secondaryTargetRef} position={[0, 0, 0]} />
 
       <directionalLight
         ref={thirdLightRef}
-        intensity={0.9}  // 강한 빛의 강도 설정
-        position={[45, 30, 15]}  // 오른쪽 위에서 비추도록 위치 설정
+        intensity={0.9}
+        position={[25, 30, 15]}  // x 값을 중앙에 가깝게 조정
       />
       <mesh ref={thirdTargetRef} position={[0, 0, 0]} />
-      
+
       <ParticleSystem />
     </>
   );
