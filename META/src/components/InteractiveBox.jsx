@@ -1,11 +1,13 @@
+// InteractiveBox.js
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Box } from '@react-three/drei';
-import { useXR, useController } from '@react-three/xr';
+import { useXR } from '@react-three/xr';
 
 function InteractiveBox(props) {
   const mesh = useRef();
   const { controllers } = useXR();
+
   useFrame(() => {
     mesh.current.rotation.x += 0.01;
     mesh.current.rotation.y += 0.01;
@@ -17,6 +19,7 @@ function InteractiveBox(props) {
       }
     });
   });
+
   return (
     <Box ref={mesh} args={[1, 1, 1]} {...props}>
       <meshStandardMaterial attach="material" color="orange" />
@@ -25,3 +28,4 @@ function InteractiveBox(props) {
 }
 
 export default InteractiveBox;
+    d

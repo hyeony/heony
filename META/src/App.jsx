@@ -1,25 +1,24 @@
-import React from 'react';
-import { Canvas } from '@react-three/fiber';
-import { VRButton, XR, Controllers, Hands } from '@react-three/xr';
-import { OrbitControls } from '@react-three/drei';
-import InteractiveBox from './components/InteractiveBox';
+import React, { Suspense } from 'react'
+import Experience from './components/Experience'
+import { Canvas } from '@react-three/fiber'
+import { Physics } from '@react-three/rapier'
+import { VRButton, ARButton, XR, Controllers, Hands } from '@react-three/xr'
 
-function App() {
+export default function AppRapierPhysics() {
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
+    <>
       <VRButton />
-      <Canvas>
-        <XR>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} />
-          <InteractiveBox position={[0, 1, -3]} />
-          <OrbitControls />
-          <Controllers />
+      <Canvas shadows camera={{position: [3, 3, 3], fov: 30}}>
+          <XR>
           <Hands />
-        </XR>
+            <color attach="background" args={["#ececec"]} />
+            <Suspense>
+              <Physics debug>
+                <Experience/>
+              </Physics>
+            </Suspense>
+          </XR>
       </Canvas>
-    </div>
-  );
+    </>
+  )
 }
-
-export default App;
