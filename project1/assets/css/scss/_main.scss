@@ -1,0 +1,22 @@
+
+.main_kb {
+	height: 685px;
+	background-image:url('../../img/bg_main_kb_1.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat:  no-repeat;
+}
+
+.main-3d {
+	display: flex;
+	height: 90vh;
+	padding: 0 120px;
+
+	>div {
+		width: 50%;
+	}
+}
+
+canvas{
+	display: block;
+}

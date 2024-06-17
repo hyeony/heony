@@ -1,0 +1,41 @@
+@import '../var';
+
+.__headline1 {
+  @include __txt_to_rem(74px, 90px, $font-size-base);
+  font-weight: 700;
+}
+
+.__headline2 {
+  @include __txt_to_rem(64px, 80px, $font-size-base);
+  font-weight: 700;
+}
+
+.__headline3 {
+  @include __txt_to_rem(56px, 70px, $font-size-base);
+  font-weight: 700;
+}
+
+.__headline4 {
+  @include __txt_to_rem(50px, 70px, $font-size-base);
+  font-weight: 700;
+}
+
+.__headline5 {
+  @include __txt_to_rem(40px, 56px, $font-size-base);
+  font-weight: 700;
+}
+
+.__headline6 {
+  @include __txt_to_rem(32px, 40px, $font-size-base);
+  font-weight: 700;
+}
+
+.__sub-headline1 {
+  @include __txt_to_rem(27px, 36px, $font-size-base);
+  font-weight: 700;
+}
+
+.__sub-headline2 {
+  @include __txt_to_rem(24px, 30px, $font-size-base);
+  font-weight: 700;
+}
